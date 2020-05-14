@@ -33,7 +33,7 @@ public class UserServiceTest {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 
-	@Test
+	//@Test
 	public void testAddUser() throws Exception {
 		
 		User user = new User();
@@ -61,7 +61,7 @@ public class UserServiceTest {
 		Assert.assertEquals("test@test.com", user.getEmail());
 	}
 	
-	@Test
+	//@Test
 	public void testGetUser() throws Exception {
 		
 		User user = new User();
@@ -91,7 +91,7 @@ public class UserServiceTest {
 		Assert.assertNotNull(userService.getUser("user05"));
 	}
 	
-	@Test
+	//@Test
 	 public void testUpdateUser() throws Exception{
 		 
 		User user = userService.getUser("testUserId");
@@ -122,7 +122,7 @@ public class UserServiceTest {
 		Assert.assertEquals("change@change.com", user.getEmail());
 	 }
 	 
-	@Test
+	//@Test
 	public void testCheckDuplication() throws Exception{
 
 		//==> 필요하다면...
