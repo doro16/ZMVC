@@ -20,7 +20,7 @@ public class LoginAction extends Action{
 		user.setPassword(request.getParameter("password"));
 		
 		UserService userService=new UserServiceImpl();
-		User dbUser=userService.loginUser(user);
+		User dbUser=userService.getUser(user.getUserId());
 		
 		HttpSession session=request.getSession();
 		session.setAttribute("user", dbUser);
