@@ -35,7 +35,7 @@ public class PurchaseServiceTest {
 	@Autowired
 	@Qualifier("purchaseServiceImpl")
 	private PurchaseService purchaseService;
-
+/*
 	//@Test
 	public void testAddPurchase() throws Exception {
 		Purchase purchase = new Purchase();
@@ -63,7 +63,7 @@ public class PurchaseServiceTest {
 
 	}
 	
-	@Test
+	//@Test
 	public void testGetPurchase() throws Exception {
 		
 		Purchase purchase = new Purchase();
@@ -81,7 +81,7 @@ public class PurchaseServiceTest {
 		//Assert.assertNotNull(purchaseService.getPurchase(10002));
 	}
 	
-	@Test
+	//@Test
 	 public void testUpdatePurchase() throws Exception{
 		 
 		Product product = purchaseService.getPurchase(10012);
