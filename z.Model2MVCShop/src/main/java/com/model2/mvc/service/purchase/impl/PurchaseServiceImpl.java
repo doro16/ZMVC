@@ -2,41 +2,52 @@ package com.model2.mvc.service.purchase.impl;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.model2.mvc.common.Search;
-import com.model2.mvc.service.product.ProductDao;
+import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.purchase.dao.PurchaseDAO;
 import com.model2.mvc.service.domain.*;
+import com.model2.mvc.service.product.ProductDao;
+import com.model2.mvc.service.product.ProductService;
 
-public class PurchaseServiceImpl implements PurchaseService {
-	//PurchaseService랑 다른점은 DAO들과 
-	//구현체 기본생성자가있다. DAO타입으로 만든다.  부장하나 만드는거 
-	private ProductDao productDAO;
-	private PurchaseDAO purchaseDAO;
+
+@Service("purchaseServiceImpl")
+public class PurchaseServiceImpl implements PurchaseService{
 	
-	public PurchaseServiceImpl() {
-		purchaseDAO=new PurchaseDAO();
+	///Field
+	@Autowired
+	@Qualifier("purchaseDaoImpl")
+	private PurchaseDao purchaseDao;
+	public void setPurchaseDao(PurchaseDao purchaseDao) {
+		this.purchaseDao = purchaseDao;
 	}
-
+	
+	///Constructor
+	public PurchaseServiceImpl() {
+		System.out.println(this.getClass());
+	}
+	
 	@Override
 	public void addPurchase(Purchase purchase) throws Exception {
-		purchaseDAO.insertPurchase(purchase);
+		purchaseDao.addPurchase(purchase);
 	}
 
 	@Override
 	public Purchase getPurchase(int tranNo) throws Exception {
-		return purchaseDAO.findPurchase(tranNo);
+		return purchaseDao.getPurchase(tranNo);
 	}
 
 	@Override
 	public Purchase getPurchase2(int ProdNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return purchaseDao.getPurchase(ProdNo);
 	}
 
 	@Override
 	public HashMap<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
-		return purchaseDAO.getPurchaseList(search, buyerId);
+		return purchaseDao.getPurchaseList(search, buyerId);
 	}
 
 	@Override
@@ -47,15 +58,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	@Override
 	public void updatePurchase(Purchase purchase) throws Exception {
-		purchaseDAO.updatePurchase(purchase);
+		purchaseDao.updatePurchase(purchase);
 		
 	}
 
 	@Override
 	public void updateTranCode(Purchase purchase) throws Exception {
-		purchaseDAO.updateTranCode(purchase);	
+		purchaseDao.updateTranCode(purchase);	
 	}
-	
 
 	
 }

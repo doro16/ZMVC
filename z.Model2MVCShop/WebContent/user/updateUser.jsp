@@ -2,12 +2,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
-<%@ page import="com.model2.mvc.service.domain.User" %>
-<%
-	User user=(User)request.getAttribute("user");
-%>/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
-
 <html>
 <head>
 <title>회원 정보 수정</title>
@@ -15,7 +9,7 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <script type="text/javascript">
-<!--
+
 function fncUpdateUser() {
 	// Form 유효성 검증
 	var name=document.detailForm.userName.value;
@@ -48,7 +42,7 @@ function check_email(frm) {
 function resetData() {
 	document.detailForm.reset();
 }
--->
+
 </script>
 </head>
 
@@ -132,23 +126,6 @@ function resetData() {
 		<td class="ct_write01">
 			<select name="phone1" class="ct_input_g" style="width:50px; height:25px" 
 							onChange="document.detailForm.phone2.focus();">
-				<%--
-					String phone1 = "";
-					String phone2 = "";
-					String phone3 = "";
-					if( user.getPhone() != null){
-						phone1 = user.getPhone().split("-")[0] ;
-						phone2 = user.getPhone().split("-")[1] ;
-						phone3 = user.getPhone().split("-")[2] ;
-					}
-											
-				<option value="010" <%= phone1.equals("010") ? "selected" : "" %> >010</option>
-				<option value="011" <%= phone1.equals("011") ? "selected" : "" %> >011</option>
-				<option value="016" <%= phone1.equals("016") ? "selected" : "" %> >016</option>
-				<option value="018" <%= phone1.equals("018") ? "selected" : "" %> >018</option>
-				<option value="019" <%= phone1.equals("019") ? "selected" : "" %> >019</option>
-				--%>
-				
 				<option value="010" ${ ! empty user.phone1 && user.phone1 == "010" ? "selected" : ""  } >010</option>
 				<option value="011" ${ ! empty user.phone1 && user.phone1 == "011" ? "selected" : ""  } >011</option>
 				<option value="016" ${ ! empty user.phone1 && user.phone1 == "016" ? "selected" : ""  } >016</option>
@@ -156,13 +133,6 @@ function resetData() {
 				<option value="019" ${ ! empty user.phone1 && user.phone1 == "019" ? "selected" : ""  } >019</option>
 				
 			</select>
-			<%--  <input 	type="text" name="phone2" value="<%= phone2.equals("")? "" : phone2 %>" 
-							class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
-			- 
-			<input 	type="text" name="phone3" value="<%= phone3.equals("")? "" : phone3 %>"  
-							class="ct_input_g"  style="width:100px; height:19px"  maxLength="9" >
-			<input type="hidden" name="phone" class="ct_input_g"  />     --%>
-			
 			<input 	type="text" name="phone2" value="${ ! empty user.phone2 ? user.phone2 : ''}" 
 							class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			- 
@@ -181,7 +151,6 @@ function resetData() {
 		<td width="104" class="ct_write">이메일 </td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<%--<input type="text" name="email" value="<%=user.getEmail() %>" class="ct_input_g" style="width:100px; height:19px" onChange="check_email(this.form);">--%>
 			<input 	type="text" name="email" value="${user.email}" class="ct_input_g" 
 							style="width:100px; height:19px" onChange="check_email(this.form);">
 		</td>

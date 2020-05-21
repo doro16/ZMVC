@@ -128,10 +128,10 @@
 		<td class="ct_write01">
 		
 			<c:if test = "${purchase.paymentOption == '1' }">
-			현금구매
+				현금구매
 			</c:if>
 			<c:if test = "${purchase.paymentOption == '2' }">
-			신용구매
+				신용구매
 			</c:if>
 		</td>
 	</tr>

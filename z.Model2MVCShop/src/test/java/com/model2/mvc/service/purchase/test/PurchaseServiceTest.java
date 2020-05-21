@@ -1,4 +1,4 @@
-package com.model2.mvc.service.product.test;
+package com.model2.mvc.service.purchase.test;
 
 import java.util.List;
 import java.util.Map;
@@ -13,8 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-
+import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.service.user.UserService;
 
 /*
  *	FileName :  UserServiceTest.java
@@ -25,64 +28,63 @@ import com.model2.mvc.service.product.ProductService;
  * ㅇ @Test : 테스트 실행 소스 지정
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration	(locations = {	"classpath:config/context-common.xml",
-										"classpath:config/context-aspect.xml",
-										"classpath:config/context-mybatis.xml",
-										"classpath:config/context-transaction.xml" })
-public class ProductServiceTest {
+@ContextConfiguration(locations = { "classpath:config/commonservice.xml" })
+public class PurchaseServiceTest {
 
 	//==>@RunWith,@ContextConfiguration 이용 Wiring, Test 할 instance DI
 	@Autowired
-	@Qualifier("productServiceImpl")
-	private ProductService productService;
+	@Qualifier("purchaseServiceImpl")
+	private PurchaseService purchaseService;
 
 	//@Test
-	public void testAddProduct() throws Exception {
+	public void testAddPurchase() throws Exception {
+		Purchase purchase = new Purchase();
+		
+		User user = new User();
+		user.setUserId("user03");
+		purchase.setBuyer(user);
 		
 		Product product = new Product();
-		product.setProdName("오레오78즈");
-		product.setProdDetail("딸기맛");
-		product.setManuDate("20200514");
-		product.setPrice(1300);
-
+		product.setProdNo(10043);
+		purchase.setPurchaseProd(product);
 		
-		productService.addProduct(product);
+		purchase.setDivyRequest("비오지만 가져다주세요");
+		purchase.setReceiverPhone("01058264544");
 		
-		product = productService.getProduct(10020);
+		purchaseService.addPurchase(purchase);
+		purchase = purchaseService.getPurchase(10055);
 
 		//==> console 확인
 		//System.out.println(user);
 		
-		//==> API 확인
-		Assert.assertEquals("오레오8즈", product.getProdName());
-		Assert.assertEquals("딸기맛", product.getProdDetail());
-		Assert.assertEquals("20200514", product.getManuDate());
-		Assert.assertEquals(1300, product.getPrice());
+		//==> API 확인 
+		Assert.assertEquals("user03", purchase.getBuyer().getUserId());
+		Assert.assertEquals(10043, purchase.getPurchaseProd().getProdNo());
 
 	}
 	
-	//@Test
-	public void testGetProduct() throws Exception {
+	@Test
+	public void testGetPurchase() throws Exception {
 		
-		Product product = new Product();
+		Purchase purchase = new Purchase();
 		
-		product = productService.getProduct(10020);
+		purchase = purchaseService.getPurchase(10054);
 
 		
 		//==> API 확인
-		Assert.assertEquals("오레오8즈", product.getProdName());
-		Assert.assertEquals("딸기맛", product.getProdDetail());
-		Assert.assertEquals("20200514", product.getManuDate());
-		Assert.assertEquals(1300, product.getPrice());
-
-		Assert.assertNotNull(productService.getProduct(10011));
-		Assert.assertNotNull(productService.getProduct(10012));
+		Assert.assertEquals("user03", purchase.getBuyer().getUserId());
+		Assert.assertEquals(10042, purchase.getPurchaseProd().getProdNo());
+		Assert.assertEquals("비오지만 가져다주세요", purchase.getDivyRequest());
+		Assert.assertEquals("01058264544", purchase.getReceiverPhone());
+		
+		Assert.assertNotNull(purchaseService.getPurchase(purchase.getTranNo()));
+		//Assert.assertNotNull(purchaseService.getPurchase(10002));
 	}
 	
-	//@Test
-	 public void testUpdateProduct() throws Exception{
+	@Test
+	 public void testUpdatePurchase() throws Exception{
 		 
-		Product product = productService.getProduct(10012);
+		Product product = purchaseService.getPurchase(10012);
 		Assert.assertNotNull(product);
 		
 		Assert.assertEquals("쉬림프아보카도", product.getProdName());
@@ -112,7 +114,7 @@ public class ProductServiceTest {
 	 
 	
 	 //==>  주석을 풀고 실행하면....
-	 @Test
+	 //@Test
 	 public void testGetProductListAll() throws Exception{
 		 
 	 	Search search = new Search();
@@ -147,7 +149,7 @@ public class ProductServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-	@Test
+	//@Test
 	 public void testGetProductListByProdNo() throws Exception{
 		 
 	 	Search search = new Search();
@@ -183,5 +185,5 @@ public class ProductServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-	
+	*/
 }
