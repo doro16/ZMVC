@@ -51,15 +51,11 @@ function fncGetUserList(currentPage) {
 				<tr>
 
 				<c:if test="${param.menu=='manage'}">
-					<td width="93%" class="ct_ttl01">					
-					상품 관리					
-					</td>
+					<td width="93%" class="ct_ttl01">상품 관리	</td>
 				</c:if>
 				
 				<c:if test="${param.menu=='search'}">
-					<td width="93%" class="ct_ttl01">					
-					상품 목록조회				
-					</td>
+					<td width="93%" class="ct_ttl01">상품 목록조회</td>
 				</c:if>		
 				</tr>
 			</table>
@@ -148,22 +144,20 @@ function fncGetUserList(currentPage) {
 			<td align="left">
 		
 		<c:choose>
-			<c:when test="${product.proTranCode=='0'}">
-				판매중
-			</c:when>
+			<c:when test="${product.proTranCode=='0'}">판매중</c:when>
 			
 			<c:when test="${param.menu=='manage'}">
-				<c:if test="${product.proTranCode=='1  '}">
+				<c:if test="${product.proTranCode.trim()=='1' }">
 					구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 				</c:if>
-				<c:if test="${product.proTranCode=='2  '}"> 배송중 </c:if>
-				<c:if test="${product.proTranCode=='3  '}"> 배송완료 </c:if>		
+				<c:if test="${product.proTranCode.trim()=='2' }"> 배송중 </c:if>
+				<c:if test="${product.proTranCode.trim()=='3' }"> 배송완료 </c:if>		
 			</c:when>
 			
 			<c:when test="${param.menu=='search' && user.role=='admin'}">
-				<c:if test="${product.proTranCode=='1  '}"> 구매완료 </c:if>
-				<c:if test="${product.proTranCode=='2  '}"> 배송중 </c:if>
-				<c:if test="${product.proTranCode=='3  '}"> 배송완료 </c:if>			
+				<c:if test="${product.proTranCode.trim()=='1' }"> 구매완료 </c:if>
+				<c:if test="${product.proTranCode.trim()=='2' }"> 배송중 </c:if>
+				<c:if test="${product.proTranCode.trim()=='3' }"> 배송완료 </c:if>			
 			</c:when>
 			
 			<c:otherwise>
