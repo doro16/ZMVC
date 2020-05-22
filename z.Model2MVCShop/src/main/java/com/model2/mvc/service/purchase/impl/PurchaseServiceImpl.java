@@ -47,14 +47,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 
 	@Override
 	public HashMap<String, Object> getPurchaseList(Search search, String buyerId) throws Exception {
-		return purchaseDao.getPurchaseList(search, buyerId);
+		return purchaseDao.getPurchaseList();
 	}
 
-	@Override
-	public HashMap<String, Object> getSaleList(Search search) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void updatePurchase(Purchase purchase) throws Exception {

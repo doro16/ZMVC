@@ -144,7 +144,7 @@ function fncGetUserList(currentPage) {
 			<td align="left">
 		
 		<c:choose>
-			<c:when test="${product.proTranCode=='0'}">판매중</c:when>
+			<c:when test="${product.proTranCode.trim()=='0'}">판매중</c:when>
 			
 			<c:when test="${param.menu=='manage'}">
 				<c:if test="${product.proTranCode.trim()=='1' }">
