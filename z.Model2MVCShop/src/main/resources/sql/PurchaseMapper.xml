@@ -17,7 +17,7 @@
 		<result property="tranCode" column="tran_status_code" jdbcType="CHAR"/>
 		<result property="orderDate" column="order_date" jdbcType="DATE"/>
 		<result property="dlvyDate" column="dlvy_date" jdbcType="VARCHAR"/>
-		
+		<!-- Purchase domain에 있는 필드 -->
 		<association property="purchaseProd"  javaType="product">
 			<id property="prodNo" column="prod_no" jdbcType="NUMERIC"/>
 			<result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
@@ -67,48 +67,36 @@
 					#{divyDate:DATE} )
 	</insert>
 
-	 <!-- SQL : UPDATE 
+	
 	 <update	id="updatePurchase"	parameterType="purchase" >
-	   	UPDATE product
+	   	UPDATE transaction
 	   	<set>
-	   		prod_name 	= 		#{prodName:VARCHAR} ,
-			prod_detail	= 		#{prodDetail:VARCHAR} ,
-			manufacture_day = 	#{manuDate:VARCHAR} ,
-			price		=		#{price:NUMERIC} ,
-			image_file	=		#{fileName:VARCHAR} 
+	   		BUYER_ID 		= #{buyer.userId:VARCHAR},
+			payment_option	= #{paymentOption:CHAR} ,
+			receiver_name 	= #{receiverName:VARCHAR},
+			receiver_phone 	= #{receiverPhone:VARCHAR},
+			demailaddr 		= #{divyAddr:VARCHAR},
+			dlvy_request 	= #{divyRequest:VARCHAR},
+			dlvy_date 		= #{divyDate:DATE}
 			
 	   	</set>
-	   	WHERE prod_no = #{prodNo}
+	   	WHERE tran_no = #{tranNo}
 	 </update>
 	
-	
+	-->
 	<select  id="getPurchaseList"  parameterType="search"	resultMap="purchaseSelectMap">
-	  	SELECT *
-	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  		FROM (	SELECT p.PROD_NO, p.PROD_NAME, p.PROD_DETAIL, p.MANUFACTURE_DAY, p.PRICE, p.IMAGE_FILE, p.reg_date, t.tran_status_code
-					FROM product p, transaction t
-					<where>
-					p.prod_no = t.prod_no(+)
-					
-					<if test="searchCondition != null">	
-					<if test="searchCondition==0">
-						AND p.PROD_NO like '%${searchKeyword}%'
-					</if>
-					<if test="searchCondition==1">
-						AND p.PROD_NAME like '%${searchKeyword}%'
-					</if>
-					<if test="searchCondition==2">
-						AND p.PRICE like '%${searchKeyword}%'
-					</if>
-				</if>
-				</where>
-				ORDER BY prod_no ) inner_table
+	  	
+		SELECT * 
+		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq  
+			FROM ( 	SELECT * FROM transaction 
+					WHERE buyer_id=#{buyerId} 
+					order by order_data desc ) inner_table 
 			WHERE ROWNUM &lt;= #{endRowNum} )
 		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 		 
 	 </select>
 			
-	-->	 	
+	
 	
 	
 	<!-- SQL : SELECT ROW Count 

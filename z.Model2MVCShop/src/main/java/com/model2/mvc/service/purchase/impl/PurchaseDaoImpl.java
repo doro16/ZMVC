@@ -46,12 +46,12 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		return sqlSession.selectOne("PurchaseMapper.getPurchase", prodNo);
 	}
 	
+	//sqlSession.selectList
 	public List<Purchase> getPurchaseList(Search search, String buyerId) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("searach", search );
-		map.put("buyerId", buyerId );
-		
-		return sqlSession.selectOne("PurchaseMapper.getPurchaseList", search);
+		map.put("search", search);
+		map.put("buyerId", buyerId);	
+		return sqlSession.selectList("PurchaseMapper.getPurchaseList", map);
 	}
 
 	public void updatePurchase(Purchase purchase) throws Exception{
@@ -61,9 +61,18 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	public void updateTranCode(Purchase purchase) throws Exception{
 		sqlSession.update("PurchaseMapper.updatePurchase", purchase);
 	}
-	
-	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
+	// SELECT COUNT(*)  
+	// FROM (  SELECT * FROM transaction WHERE  buyer_id= 'user03' ) countTable; 
+	//  COUNT(*)
+	// ---------
+    //    7
+	// return totalCount;	//buyer_id로 검색했을때 만족하는 결과 수 원래 하나 리턴함
+	public int getTotalCount(Search search, String buyerId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("buyerId", buyerId);
+		
+		return sqlSession.selectOne("PurchaseMapper.getTotalCount", map);
 	}
 
 	

@@ -35,7 +35,7 @@ public class PurchaseServiceTest {
 	@Autowired
 	@Qualifier("purchaseServiceImpl")
 	private PurchaseService purchaseService;
-/*
+
 	//@Test
 	public void testAddPurchase() throws Exception {
 		Purchase purchase = new Purchase();
@@ -112,15 +112,37 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(1300, product.getPrice());
 	 }
 	 
+	 @Test
+	 public Map<String, Object> testGetPurchaseList(Search search,String buyerId ) throws Exception{
+			
+			Map<String , Object>  map = new HashMap<String, Object>();
+			
+				map.put("search", search);
+				map.put("buyerId", buyerId);
+			
+				
+				List<Purchase> list = sqlSession.selectList("PurchaseMapper.getPurchaseList", map); 
+				
+				for (int i = 0; i < list.size(); i++) {
+					list.get(i).setBuyer((User)sqlSession.selectOne("UserMapper.getUser", list.get(i).getBuyer().getUserId()));
+					list.get(i).setPurchaseProd((Product)sqlSession.selectOne("ProductMapper.getProduct", list.get(i).getPurchaseProd().getProdNo()));
+				}
+				
+				map.put("totalCount", sqlSession.selectOne("PurchaseMapper.getTotalCount", buyerId));
+		
+				map.put("list", list);
+
+			return map;
+		}
 	
 	 //==>  주석을 풀고 실행하면....
 	 //@Test
-	 public void testGetProductListAll() throws Exception{
+	 public void testGetPurchaseListAll() throws Exception{
 		 
 	 	Search search = new Search();
 	 	search.setCurrentPage(1);
 	 	search.setPageSize(3);
-	 	Map<String,Object> map =productService.getProductList(search);
+	 	Map<String,Object> map =purchaseService.getPurchaseList(search, buyerId);
 	 	
 	 	List<Object> list = (List<Object>)map.get("list");
 	 	Assert.assertEquals(3, list.size());
@@ -150,14 +172,14 @@ public class PurchaseServiceTest {
 	 }
 	 
 	//@Test
-	 public void testGetProductListByProdNo() throws Exception{
+	 public void testGetPurchaseListByProdNo() throws Exception{
 		 
 	 	Search search = new Search();
 	 	search.setCurrentPage(1);
 	 	search.setPageSize(3);
 	 	search.setSearchCondition("0");
 	 	search.setSearchKeyword("10013");
-	 	Map<String,Object> map = productService.getProductList(search);
+	 	Map<String,Object> map = purchaseService.getPurchaseList(search);
 	 	
 	 	List<Object> list = (List<Object>)map.get("list");
 	 	Assert.assertEquals(1, list.size());
@@ -185,5 +207,5 @@ public class PurchaseServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-	*/
+
 }
