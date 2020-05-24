@@ -1,5 +1,6 @@
 package com.model2.mvc.service.purchase.test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +85,8 @@ public class PurchaseServiceTest {
 	//@Test
 	 public void testUpdatePurchase() throws Exception{
 		 
-		Product product = purchaseService.getPurchase(10012);
-		Assert.assertNotNull(product);
+		Purchase purchase = purchaseService.getPurchase(10012);
+		Assert.assertNotNull(purchase);
 		
 		Assert.assertEquals("쉬림프아보카도", product.getProdName());
 		Assert.assertEquals("30cm", product.getProdDetail());
@@ -97,9 +98,9 @@ public class PurchaseServiceTest {
 		product.setManuDate("20200614");
 		product.setPrice(1300);
 		
-		productService.updateProduct(product);
+		purchaseService.updateProduct(product);
 
-		product = productService.getProduct(10012);
+		product = purchaseService.getProduct(10012);
 		Assert.assertNotNull(product);
 		
 		//==> console 확인
@@ -115,22 +116,21 @@ public class PurchaseServiceTest {
 	 @Test
 	 public Map<String, Object> testGetPurchaseList(Search search,String buyerId ) throws Exception{
 			
-			Map<String , Object>  map = new HashMap<String, Object>();
+			Map<String , Object> map = new HashMap<String, Object>();
 			
-				map.put("search", search);
-				map.put("buyerId", buyerId);
+			map.put("search", search);
+			map.put("buyerId", buyerId);
 			
-				
-				List<Purchase> list = sqlSession.selectList("PurchaseMapper.getPurchaseList", map); 
-				
-				for (int i = 0; i < list.size(); i++) {
-					list.get(i).setBuyer((User)sqlSession.selectOne("UserMapper.getUser", list.get(i).getBuyer().getUserId()));
-					list.get(i).setPurchaseProd((Product)sqlSession.selectOne("ProductMapper.getProduct", list.get(i).getPurchaseProd().getProdNo()));
-				}
-				
-				map.put("totalCount", sqlSession.selectOne("PurchaseMapper.getTotalCount", buyerId));
-		
-				map.put("list", list);
+			List<Purchase> list = sqlSession.selectList("PurchaseMapper.getPurchaseList", map); 
+			
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setBuyer((User)sqlSession.selectOne("UserMapper.getUser", list.get(i).getBuyer().getUserId()));
+				list.get(i).setPurchaseProd((Product)sqlSession.selectOne("ProductMapper.getProduct", list.get(i).getPurchaseProd().getProdNo()));
+			}
+			
+			map.put("totalCount", sqlSession.selectOne("PurchaseMapper.getTotalCount", buyerId));
+	
+			map.put("list", list);
 
 			return map;
 		}

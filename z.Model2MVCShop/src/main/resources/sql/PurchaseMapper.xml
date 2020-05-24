@@ -83,40 +83,23 @@
 	   	WHERE tran_no = #{tranNo}
 	 </update>
 	
-	-->
-	<select  id="getPurchaseList"  parameterType="search"	resultMap="purchaseSelectMap">
+	
+	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
 	  	
 		SELECT * 
 		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq  
 			FROM ( 	SELECT * FROM transaction 
 					WHERE buyer_id=#{buyerId} 
 					order by order_data desc ) inner_table 
-			WHERE ROWNUM &lt;= #{endRowNum} )
-		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+			WHERE ROWNUM &lt;= #{search.endRowNum} )
+		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
 		 
 	 </select>
-			
-	
-	
-	
-	<!-- SQL : SELECT ROW Count 
-	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+
+
+	 <select  id="getTotalCount"  parameterType="string" resultType="int">
 	  SELECT COUNT(*)	
-	  FROM(	SELECT p.PROD_NO, p.PROD_NAME, p.PROD_DETAIL, p.MANUFACTURE_DAY, p.PRICE, p.IMAGE_FILE, p.reg_date, t.tran_status_code
-				FROM product p, transaction t
-				<where> p.prod_no = t.prod_no(+)
-				<if test="searchCondition != null">	
-					<if test="searchCondition==0">
-						AND p.PROD_NO like '%${searchKeyword}%'
-					</if>
-					<if test="searchCondition==1">
-						AND p.PROD_NAME like '%${searchKeyword}%'
-					</if>
-					<if test="searchCondition==2">
-						AND p.PRICE like '%${searchKeyword}%'
-					</if>
-				</if>) countTable	
-				</where>				
+	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR})				
 	 </select>
-	 -->	 
+	 
 </mapper>

@@ -1,6 +1,9 @@
-<%@ page contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <%-- listProduct.jsp (관리자가 보는 상품목록 조회) --%>
 <%-- <%@ page import="java.util.*" %>
 <%@ page import="com.model2.mvc.service.domain.Product" %>
@@ -129,10 +132,10 @@ function fncGetUserList(currentPage) {
 				<c:if test="${param.menu=='manage'}"> <%-- 관리로 들어오면  이름에 전부 링크걸어 수정하기--%>
 				<a href="/updateProductView.do?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
 				</c:if>
-				<c:if test="${param.menu=='search' && product.proTranCode!='0'}"> <%-- 구매하기 & 판매중아니면 링크x--%>
-				${product.prodName}
+				<c:if test="${param.menu=='search' && !empty product.proTranCode }"> <%-- 구매하기 & 판매중아니면 링크x--%>
+							${product.prodName}
 				</c:if>
-				<c:if test="${param.menu=='search' && product.proTranCode=='0'}"><%-- 구매하기 & 판매중에만 링크걸기 --%>
+				<c:if test="${param.menu=='search' && empty product.proTranCode }"><%-- 구매하기 & 판매중에만 링크걸기 --%>
 				<a href="/getProduct.do?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
 				</c:if>
 			</td>	
@@ -144,20 +147,20 @@ function fncGetUserList(currentPage) {
 			<td align="left">
 		
 		<c:choose>
-			<c:when test="${product.proTranCode.trim()=='0'}">판매중</c:when>
+			<c:when test="${ empty product.proTranCode }">판매중</c:when>
 			
 			<c:when test="${param.menu=='manage'}">
-				<c:if test="${product.proTranCode.trim()=='1' }">
+				<c:if test="${ fn:contains(product.proTranCode, '1') }">
 					구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 				</c:if>
-				<c:if test="${product.proTranCode.trim()=='2' }"> 배송중 </c:if>
-				<c:if test="${product.proTranCode.trim()=='3' }"> 배송완료 </c:if>		
+				<c:if test="${ fn:contains(product.proTranCode, '2') }"> 배송중 </c:if>
+				<c:if test="${ fn:contains(product.proTranCode, '3') }"> 배송완료 </c:if>		
 			</c:when>
 			
 			<c:when test="${param.menu=='search' && user.role=='admin'}">
-				<c:if test="${product.proTranCode.trim()=='1' }"> 구매완료 </c:if>
-				<c:if test="${product.proTranCode.trim()=='2' }"> 배송중 </c:if>
-				<c:if test="${product.proTranCode.trim()=='3' }"> 배송완료 </c:if>			
+				<c:if test="${ fn:contains(product.proTranCode, '1') }"> 구매완료 </c:if>
+				<c:if test="${ fn:contains(product.proTranCode, '2') }"> 배송중 </c:if>
+				<c:if test="${ fn:contains(product.proTranCode, '3') }"> 배송완료 </c:if>			
 			</c:when>
 			
 			<c:otherwise>

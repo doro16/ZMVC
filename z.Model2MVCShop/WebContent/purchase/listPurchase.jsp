@@ -88,13 +88,13 @@
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
 			<td align="left">
-				<c:if test = "${purchase.tranCode.trim() == '1' }" > 현재 구매완료 상태입니다. </c:if>
-				<c:if test = "${purchase.tranCode.trim() == '2' }" > 현재 배송중 상태입니다.  </c:if>
-				<c:if test = "${purchase.tranCode.trim() == '3' }" > 현재 배송완료 상태입니다.</c:if>
+				<c:if test = "${purchase.tranCode == '1  ' }" > 현재 구매완료 상태입니다. </c:if>
+				<c:if test = "${purchase.tranCode == '2  ' }" > 현재 배송중 상태입니다.  </c:if>
+				<c:if test = "${purchase.tranCode == '3  ' }" > 현재 배송완료 상태입니다.</c:if>
 			</td>	
 			<td></td>
 			<td align="left">
-				<c:if test = "${purchase.tranCode.trim() == '2'}">		
+				<c:if test = "${purchase.tranCode == '2'}">		
 				<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">물건도착</a>
 				</c:if>
 		</td>
