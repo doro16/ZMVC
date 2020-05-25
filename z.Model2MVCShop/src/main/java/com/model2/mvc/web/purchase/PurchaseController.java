@@ -3,6 +3,7 @@ package com.model2.mvc.web.purchase;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.purchase.PurchaseService;
 import com.model2.mvc.service.user.UserService;
 
@@ -30,6 +32,17 @@ public class PurchaseController {
 	@Autowired
 	@Qualifier("purchaseServiceImpl")
 	private PurchaseService purchaseService;
+	
+	@Autowired
+	@Qualifier("productServiceImpl")
+	private ProductService productService;
+	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userService;
+	
+	
+	
 	//setter Method 구현 않음
 		
 	public PurchaseController(){
@@ -48,23 +61,32 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/addPurchaseView.do")
-	public String addPurchaseView() throws Exception {
+	public String addPurchaseView( @RequestParam("prodNo") int prodNo,
+								  HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		System.out.println("/addPurchasetView.do");
+		Product product = productService.getProduct(prodNo);
 		
-		return "redirect:/purchase/addPurchaseView.jsp";
+		request.setAttribute("product", product);
+		return "forward:/purchase/addPurchaseView.jsp";
 	}
 	
 	@RequestMapping("/addPurchase.do")
-	public String addPurchase( @ModelAttribute("purchase") Purchase purchase, Model model) throws Exception {
+	public String addPurchase(@RequestParam("prodNo") int prodNo,
+							  @RequestParam("buyerId") String buyerId,
+							  @ModelAttribute("purchase") Purchase purchase) throws Exception {
 
 		System.out.println("/addPurchase.do");
-		//Business Logic
+		
 		//purchase.setManuDate(product.getManuDate().replace("-", ""));
+		Product product = productService.getProduct(prodNo);
+		User user = userService.getUser(buyerId);
+		purchase.setBuyer(user);
+		purchase.setPurchaseProd(product);
 		
 		purchaseService.addPurchase(purchase);
 		
-		model.addAttribute("purchase", purchase);
+		
 		
 		return "forward:/purchase/addPurchase.jsp";
 	}

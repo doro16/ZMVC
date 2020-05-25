@@ -15,7 +15,7 @@
 		<result property="dlvyAddr" column="dlvy_addr" jdbcType="VARCHAR"/>
 		<result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
 		<result property="tranCode" column="tran_status_code" jdbcType="CHAR"/>
-		<result property="orderDate" column="order_date" jdbcType="DATE"/>
+		<result property="orderDate" column="ORDER_DATA" jdbcType="DATE"/>
 		<result property="dlvyDate" column="dlvy_date" jdbcType="VARCHAR"/>
 		<!-- Purchase domain에 있는 필드 -->
 		<association property="purchaseProd"  javaType="product">
@@ -62,7 +62,7 @@
 					#{receiverPhone:VARCHAR},
 					#{divyAddr:VARCHAR},
 					#{divyRequest:VARCHAR},
-					#{tranCode:CHAR},
+					1,
 					SYSDATE,
 					#{divyDate:DATE} )
 	</insert>
@@ -84,7 +84,7 @@
 	 </update>
 	
 	
-	<select  id="getPurchaseList"  parameterType="search"	resultMap="purchaseSelectMap">
+	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
 	  	
 		SELECT * 
 		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq  
@@ -96,13 +96,23 @@
 		 
 	 </select>
 	
-	<update id="updateTranCode" parameterType="purchase">
+	<update id="updateTranCodeByProd" parameterType="purchase">
 		UPDATE transaction 
 		<set>
 		TRAN_STATUS_CODE= #{tranCode}
 		</set>
 		<where>
 		tran_no = #{tranNo}
+		</where> 
+		
+	</update>
+	
+	<update id="updateTranCodeByTran" parameterType="purchase">
+		UPDATE transaction 
+		<set>
+		TRAN_STATUS_CODE= #{tranCode}
+		</set>
+		<where>
 		prod_no = #{purchaseProd.prodNo}
 		</where> 
 		
@@ -112,7 +122,8 @@
 	<!-- 구매목록에는 search 없음 -->
 	 <select  id="getTotalCount"  parameterType="string" resultType="int">
 	  SELECT COUNT(*)	
-	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR})				
+	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR})
+	  ORDER BY ORDER_DATA desc ) countTable		
 	 </select>
 	 
 </mapper>

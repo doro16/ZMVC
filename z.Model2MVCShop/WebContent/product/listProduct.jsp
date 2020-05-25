@@ -127,6 +127,7 @@ function fncGetUserList(currentPage) {
 			<td align="left">
 		
 		<c:choose>
+			<%-- null 이면 --%>
 			<c:when test="${ empty product.proTranCode }">판매중</c:when>
 			
 			<c:when test="${param.menu=='manage'}">

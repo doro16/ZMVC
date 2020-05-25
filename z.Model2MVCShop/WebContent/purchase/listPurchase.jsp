@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=EUC-KR"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- listPurchase.jsp (회원이 보는 구매목록 조회) --%>
 <%-- 배송현황과   								정보수정이 있음  --%>
@@ -88,13 +88,14 @@
 			<td align="left">${purchase.receiverPhone}</td>
 			<td></td>
 			<td align="left">
-				<c:if test = "${purchase.tranCode == '1  ' }" > 현재 구매완료 상태입니다. </c:if>
-				<c:if test = "${purchase.tranCode == '2  ' }" > 현재 배송중 상태입니다.  </c:if>
-				<c:if test = "${purchase.tranCode == '3  ' }" > 현재 배송완료 상태입니다.</c:if>
+				<c:if test="${ fn:contains(purchase.tranCode, '1') }"> 현재 구매완료 상태입니다.</c:if>
+				<c:if test="${ fn:contains(purchase.tranCode, '2') }"> 현재 배송중 상태입니다.</c:if>
+				<c:if test="${ fn:contains(purchase.tranCode, '3') }"> 현재 배송완료 상태입니다. </c:if>
 			</td>	
 			<td></td>
 			<td align="left">
-				<c:if test = "${purchase.tranCode == '2'}">		
+				
+				<c:if test="${ fn:contains(purchase.tranCode, '2') }">
 				<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">물건도착</a>
 				</c:if>
 		</td>

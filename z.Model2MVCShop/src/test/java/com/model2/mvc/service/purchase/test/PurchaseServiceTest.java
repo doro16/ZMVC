@@ -113,7 +113,7 @@ public class PurchaseServiceTest {
 		Assert.assertEquals(1300, product.getPrice());
 	 }
 	 
-	 @Test
+	 //@Test
 	 public Map<String, Object> testGetPurchaseList(Search search,String buyerId ) throws Exception{
 			
 			Map<String , Object> map = new HashMap<String, Object>();
