@@ -68,7 +68,8 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do") // jsp에서 받아온다고 
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo ,
+							 @RequestParam(value="menu", required=false) String menu, Model model) throws Exception{
 		
 		System.out.println("/getProduct.do");
 		//Business Logic
@@ -76,7 +77,12 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		return "forward:/product/getProduct.jsp";
+		if(menu =="manage") {
+			return "forward:/product/updateProductView.jsp";
+		} else {
+			return "forward:/product/getProduct.jsp";
+		} 
+		
 	}
 	
 	@RequestMapping("/updateProductView.do")
@@ -88,7 +94,7 @@ public class ProductController {
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
-		return "forward:/product/getProduct.jsp";
+		return "forward:/product/updateProductView.jsp";
 	}
 	
 	@RequestMapping("/updateProduct.do")
@@ -102,7 +108,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/listProduct.do")
-	public String listProduct( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+	public String listProduct( @ModelAttribute("search") Search search , @RequestParam(value="menu", required=false) String menu, Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listProduct.do");
 		
@@ -121,6 +127,7 @@ public class ProductController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		model.addAttribute("menu",menu);
 		
 		return "forward:/product/listProduct.jsp";
 	}

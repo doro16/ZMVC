@@ -75,7 +75,7 @@
 			payment_option	= #{paymentOption:CHAR} ,
 			receiver_name 	= #{receiverName:VARCHAR},
 			receiver_phone 	= #{receiverPhone:VARCHAR},
-			demailaddr 		= #{divyAddr:VARCHAR},
+			DEMAILADDR 		= #{divyAddr:VARCHAR},
 			dlvy_request 	= #{divyRequest:VARCHAR},
 			dlvy_date 		= #{divyDate:DATE}
 			
@@ -84,7 +84,7 @@
 	 </update>
 	
 	
-	<select  id="getPurchaseList"  parameterType="map"	resultMap="purchaseSelectMap">
+	<select  id="getPurchaseList"  parameterType="search"	resultMap="purchaseSelectMap">
 	  	
 		SELECT * 
 		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq  
@@ -95,8 +95,21 @@
 		WHERE row_seq BETWEEN #{search.startRowNum} AND #{search.endRowNum} 
 		 
 	 </select>
-
-
+	
+	<update id="updateTranCode" parameterType="purchase">
+		UPDATE transaction 
+		<set>
+		TRAN_STATUS_CODE= #{tranCode}
+		</set>
+		<where>
+		tran_no = #{tranNo}
+		prod_no = #{purchaseProd.prodNo}
+		</where> 
+		
+	</update>
+	
+	
+	<!-- 구매목록에는 search 없음 -->
 	 <select  id="getTotalCount"  parameterType="string" resultType="int">
 	  SELECT COUNT(*)	
 	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR})				
