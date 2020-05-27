@@ -74,19 +74,25 @@ public class PurchaseController {
 	@RequestMapping("/addPurchase.do")
 	public String addPurchase(@RequestParam("prodNo") int prodNo,
 							  @RequestParam("buyerId") String buyerId,
-							  @ModelAttribute("purchase") Purchase purchase) throws Exception {
+							  @ModelAttribute("purchase") Purchase purchase, Model model) throws Exception {
 
 		System.out.println("/addPurchase.do");
 		
 		//purchase.setManuDate(product.getManuDate().replace("-", ""));
-		Product product = productService.getProduct(prodNo);
-		User user = userService.getUser(buyerId);
+		User user = new User();
+		user.setUserId(buyerId);
+		Product product = new Product();
+		//product.setProdNo(prodNo);
+		product = productService.getProduct(prodNo);
+		System.out.println(product);
+		//User user = userService.getUser(user);
+		
 		purchase.setBuyer(user);
 		purchase.setPurchaseProd(product);
 		
 		purchaseService.addPurchase(purchase);
 		
-		
+		model.addAttribute("product", product);
 		
 		return "forward:/purchase/addPurchase.jsp";
 	}
@@ -131,7 +137,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/listPurchase.do")
-	public String listPurchase( @ModelAttribute("search") Search search , String buyerId, Model model , HttpServletRequest request) throws Exception{
+	public String listPurchase( @ModelAttribute("search") Search search , @RequestParam("buyerId") String buyerId, Model model , HttpServletRequest request) throws Exception{
 		
 		System.out.println("/listPurchase.do");
 		
@@ -150,6 +156,7 @@ public class PurchaseController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		System.out.println("***********"+buyerId);
 		
 		return "forward:/purchase/listPurchase.jsp";
 	}
