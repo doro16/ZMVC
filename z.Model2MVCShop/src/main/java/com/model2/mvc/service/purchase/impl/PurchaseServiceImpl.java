@@ -72,8 +72,13 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 
 	@Override
-	public void updateTranCode(Purchase purchase) throws Exception {
-		purchaseDao.updateTranCode(purchase);	
+	public void updateTranCodeByTran(Purchase purchase) throws Exception {
+		purchaseDao.updateTranCodeByTran(purchase);	
+	}
+	
+	@Override
+	public void updateTranCodeByProd(Purchase purchase) throws Exception {
+		purchaseDao.updateTranCodeByProd(purchase);	
 	}
 
 	

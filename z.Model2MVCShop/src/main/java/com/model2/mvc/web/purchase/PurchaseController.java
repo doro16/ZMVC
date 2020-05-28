@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.portlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -61,8 +63,7 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/addPurchaseView.do")
-	public String addPurchaseView( @RequestParam("prodNo") int prodNo,
-								  HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addPurchaseView( @RequestParam("prodNo") int prodNo, HttpSession session,) throws Exception {
 
 		System.out.println("/addPurchasetView.do");
 		Product product = productService.getProduct(prodNo);
@@ -97,43 +98,56 @@ public class PurchaseController {
 		return "forward:/purchase/addPurchase.jsp";
 	}
 	
-	@RequestMapping("/getPurchase.do") // jsp에서 받아온다고 
-	public String getPurchase( @RequestParam("prodNo") int tranNo ,
-							 @RequestParam(value="menu", required=false) String menu, Model model) throws Exception{
+	@RequestMapping("/getPurchase.do") 
+	public ModelAndView getPurchase(@RequestParam("tranNo") int tranNo) throws Exception{
+		
 		
 		System.out.println("/getPurchase.do");
 		//Business Logic
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 		
-		// Model 과 View 연결
-		model.addAttribute("purchase", purchase);
+		modelAndView.setViewName("/purchase/getPurchase.jsp");
+		modelAndView.addObject("purchase", purchase);
 		
-		
-		return "forward:/purchase/getPurchase.jsp";
+		return modelAndView;
 		
 	}
 	
-	@RequestMapping("/updatePurchasetView.do")
-	public String updatePurchaseView( @RequestParam("tranNo") int tranNo , Model model ) throws Exception{
+	@RequestMapping("/updatePurchaseView.do")
+	public ModelAndView updatePurchaseView( @RequestParam("tranNo") int tranNo) throws Exception{
 
 		System.out.println("/updatePurchaseView.do");
 		//Business Logic
+		ModelAndView modelAndView = new ModelAndView();
+		
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 	
 		// Model 과 View 연결
-		model.addAttribute("purchase", purchase);
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("/purchase/updatePurchaseView.jsp");
 		
-		return "forward:/purchase/updatePurchaseView.jsp";
+		return modelAndView;
 	}
 	
 	@RequestMapping("/updatePurchase.do")
-	public String updatePurchase( @ModelAttribute("purchase") Purchase purchase , Model model ) throws Exception{
+	public ModelAndView updatePurchase( 
+										@ModelAttribute("purchase") Purchase purchase ) throws Exception{
 
 		System.out.println("/updatePurchase.do");
 		//Business Logic
-		purchaseService.updatePurchase(purchase);
+		ModelAndView modelAndView = new ModelAndView();
 		
-		return "redirect:/getPurchase.do?tranNo="+purchase.getTranNo();
+
+		purchaseService.updatePurchase(purchase);
+		purchase = purchaseService.getPurchase(purchase.getTranNo());
+		
+		modelAndView.addObject("purchase", purchase);
+		modelAndView.setViewName("/purchase/getPurchase.do");
+		
+		return modelAndView;
 	}
 	
 	@RequestMapping("/listPurchase.do")
@@ -159,5 +173,32 @@ public class PurchaseController {
 		System.out.println("***********"+buyerId);
 		
 		return "forward:/purchase/listPurchase.jsp";
+	}
+	
+	@RequestMapping("/updateTranCodeByTran.do")
+	public String updateTranCodeByTran( @ModelAttribute("search") Search search , @RequestParam("buyerId") String buyerId, Model model , HttpServletRequest request) throws Exception{
+		System.out.println("//updateTranCodeByTran.do");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		// Business logic 수행		
+		
+		Map<String, Object> map = purchaseService.getPurchaseList(search, buyerId);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		model.addAttribute("list", map.get("list"));
+		model.addAttribute("resultPage", resultPage);
+		model.addAttribute("search", search);
+		System.out.println("***********"+buyerId);
+		
+		Purchase purchase = new Purchase();
+	
+		
+		return "forward:/purchase/listPurchase.do?buyerId="+buyerId;
 	}
 }

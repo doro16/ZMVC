@@ -52,7 +52,7 @@
   	
 	<insert id="addPurchase" parameterType="purchase">
 		INSERT 
-		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, ORDER_DATA, dlvy_date)
+		INTO transaction(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, DEMAILADDR, dlvy_request, tran_status_code, ORDER_DATA, dlvy_date)
 		VALUES (
 					seq_transaction_tran_no.NEXTVAL,
 					#{purchaseProd.prodNo:INTEGER},

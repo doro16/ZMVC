@@ -20,8 +20,9 @@ public interface PurchaseDao {
 
 	public void updatePurchase(Purchase purchase) throws Exception;
 
-
-	public void updateTranCode(Purchase purchase) throws Exception;
+	public void updateTranCodeByProd(Purchase purchase) throws Exception;
+	
+	public void updateTranCodeByTran(Purchase purchase) throws Exception;
 	// SELECT COUNT(*)  
 	// FROM (  SELECT * FROM transaction WHERE  buyer_id= 'user03' ) countTable; 
 	//  COUNT(*)
