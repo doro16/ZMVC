@@ -16,7 +16,7 @@
 		<result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
 		<result property="tranCode" column="tran_status_code" jdbcType="CHAR"/>
 		<result property="orderDate" column="ORDER_DATA" jdbcType="DATE"/>
-		<result property="dlvyDate" column="dlvy_date" jdbcType="VARCHAR"/>
+		<result property="divyDate" column="DLVY_DATE" jdbcType="VARCHAR"/>
 		<!-- Purchase domain에 있는 필드 -->
 		<association property="purchaseProd"  javaType="product">
 			<id property="prodNo" column="prod_no" jdbcType="NUMERIC"/>
@@ -26,7 +26,7 @@
 			<result property="price" column="price" jdbcType="NUMERIC"/>
 			<result property="fileName" column="image_file" jdbcType="VARCHAR"/>
 			<result property="regDate" column="prod_reg_date" jdbcType="DATE"/>
-			<result property="prodTranCode" column="TRAN_STATUS_CODE" jdbcType="VARCHAR"/>
+			<result property="proTranCode" column="TRAN_STATUS_CODE" jdbcType="VARCHAR"/>
 		</association>
 		
 		<association property="buyer"  javaType="user">
@@ -122,7 +122,7 @@
 	<!-- 구매목록에는 search 없음 -->
 	 <select  id="getTotalCount"  parameterType="string" resultType="int">
 	  SELECT COUNT(*)	
-	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR})
+	  FROM(SELECT * FROM transaction WHERE buyer_id = #{buyerId:VARCHAR}
 	  ORDER BY ORDER_DATA desc ) countTable		
 	 </select>
 	 

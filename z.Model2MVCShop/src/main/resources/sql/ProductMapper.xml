@@ -15,9 +15,9 @@
 		<result property="price" 	column="price" 			jdbcType="NUMERIC" />
 		<result property="fileName" column="image_file" 	jdbcType="VARCHAR"/>
 		<result property="regDate" 	column="reg_date" 		jdbcType="DATE" />
-		
+		<result property="proTranCode" 	column="tran_status_code" 		jdbcType="VARCHAR" />
 	</resultMap>
-	
+										<!-- purchase 꺼임  -->
 	<!-- SQL : INSERT -->
 	<insert 	id="addProduct"		parameterType="product" >
 	 	INSERT
