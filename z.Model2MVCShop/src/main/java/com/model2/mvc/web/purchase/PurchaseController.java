@@ -62,8 +62,10 @@ public class PurchaseController {
 	int pageSize;
 	
 	
+
 	@RequestMapping("/addPurchaseView.do")
-	public ModelAndView addPurchaseView( @RequestParam("prodNo") int prodNo, HttpSession session,) throws Exception {
+	public String addPurchaseView( @RequestParam("prodNo") int prodNo,
+								  HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		System.out.println("/addPurchasetView.do");
 		Product product = productService.getProduct(prodNo);
