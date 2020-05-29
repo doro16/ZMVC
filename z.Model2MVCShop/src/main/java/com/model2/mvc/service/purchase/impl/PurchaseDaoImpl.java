@@ -63,7 +63,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	}
 	
 	public void updateTranCodeByProd(Purchase purchase) throws Exception{
-		sqlSession.update("PurchaseMapper.updateTranCodeByTran", purchase);
+		sqlSession.update("PurchaseMapper.updateTranCodeByProd", purchase);
 	}
 	// SELECT COUNT(*)  
 	// FROM (  SELECT * FROM transaction WHERE  buyer_id= 'user03' ) countTable; 

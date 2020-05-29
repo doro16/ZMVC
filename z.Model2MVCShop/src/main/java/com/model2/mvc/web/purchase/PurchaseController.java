@@ -13,9 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -133,27 +132,33 @@ public class PurchaseController {
 		
 		return modelAndView;
 	}
-	
+	//POST잖아 다시해라 
 	@RequestMapping("/updatePurchase.do")
-	public ModelAndView updatePurchase( 
-										@ModelAttribute("purchase") Purchase purchase ) throws Exception{
+	public ModelAndView updatePurchase( @ModelAttribute("purchase") Purchase purchase, 
+										@RequestParam("buyerId") String buyerId,
+										@RequestParam("tranNo") int tranNo ) throws Exception{
 
 		System.out.println("/updatePurchase.do");
 		//Business Logic
 		ModelAndView modelAndView = new ModelAndView();
-		
 
+		System.out.println(purchase.getTranNo());
+		System.out.println("*******"+purchase.getBuyer());
+		System.out.println("*******"+buyerId);
+		User user = new User();
+		user = userService.getUser(buyerId);
+		purchase.setBuyer(user);
 		purchaseService.updatePurchase(purchase);
-		purchase = purchaseService.getPurchase(purchase.getTranNo());
-		
+		//purchase = purchaseService.getPurchase(purchase.getTranNo());
+		purchase = purchaseService.getPurchase(tranNo);
 		modelAndView.addObject("purchase", purchase);
-		modelAndView.setViewName("/purchase/getPurchase.do");
+		modelAndView.setViewName("/purchase/getPurchase.jsp");
 		
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/listPurchase.do")
-	public String listPurchase( @ModelAttribute("search") Search search , @RequestParam("buyerId") String buyerId, Model model , HttpServletRequest request) throws Exception{
+	public ModelAndView  listPurchase( @ModelAttribute("search") Search search , HttpSession session) throws Exception{
 		
 		System.out.println("/listPurchase.do");
 		
@@ -161,46 +166,95 @@ public class PurchaseController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
 		// Business logic 수행		
+		ModelAndView modelAndView = new ModelAndView();
+		User user = (User)session.getAttribute("user");
+		String buyerId = user.getUserId();
 		
 		Map<String, Object> map = purchaseService.getPurchaseList(search, buyerId);
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		// Model 과 View 연결
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search",search);
+		modelAndView.setViewName("/purchase/listPurchase.jsp");
 		System.out.println("***********"+buyerId);
 		
-		return "forward:/purchase/listPurchase.jsp";
+		return modelAndView;
 	}
-	
+	//listPurchase.jsp에서 
+	//<a href="/updateTranCode.do?tranNo=<%=purchaseVO.getTranNo()%>
+	//								 &tranCode=3
+	//								 &buyerId=<%=user.getUserId()%>">물건도착</a>
+
 	@RequestMapping("/updateTranCodeByTran.do")
-	public String updateTranCodeByTran( @ModelAttribute("search") Search search , @RequestParam("buyerId") String buyerId, Model model , HttpServletRequest request) throws Exception{
+	public ModelAndView updateTranCodeByTran( 	@ModelAttribute("search") Search search ,
+												@ModelAttribute("user") User user,
+												//@RequestParam("buyerId") String buyerId,
+												@ModelAttribute("purchase") Purchase purchase
+												) throws Exception{
 		System.out.println("//updateTranCodeByTran.do");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
+		ModelAndView modelAndView = new ModelAndView();
 		// Business logic 수행		
-		
-		Map<String, Object> map = purchaseService.getPurchaseList(search, buyerId);
+		purchase.setBuyer(user);
+		purchaseService.updateTranCodeByTran(purchase);
+		Map<String, Object> map = purchaseService.getPurchaseList(search, purchase.getBuyer().getUserId());
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
 		// Model 과 View 연결
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
-		model.addAttribute("search", search);
-		System.out.println("***********"+buyerId);
-		
-		Purchase purchase = new Purchase();
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search",search);
+		modelAndView.setViewName("/purchase/listPurchase.do?buyerId="+purchase.getBuyer().getUserId());
 	
 		
-		return "forward:/purchase/listPurchase.do?buyerId="+buyerId;
+		return modelAndView;
+	}
+	// 구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}
+	//										  &tranCode=2">배송하기</a>
+	@RequestMapping("/updateTranCodeByProd.do")
+	public ModelAndView updateTranCodeByProd( 	@ModelAttribute("search") Search search ,
+												@RequestParam("tranCode") String tranCode,
+												@ModelAttribute("product") Product product,
+												HttpSession httpSession
+												) throws Exception{
+		System.out.println("///////////////////updateTranCodeByProd.do");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		ModelAndView modelAndView = new ModelAndView();
+		// Business logic 수행		
+		product.setProTranCode(tranCode);
+			
+		Purchase purchase = new Purchase();
+		
+		purchase.setPurchaseProd(product);
+		System.out.println("//////////"+product.getProTranCode());
+		System.out.println("//////////////////////"+purchase.getPurchaseProd().getProTranCode());
+		purchaseService.updateTranCodeByProd(purchase);
+		
+		
+		Map<String, Object> map = productService.getProductList(search);
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		// Model 과 View 연결
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		modelAndView.addObject("search",search);
+		modelAndView.setViewName("/product/listProduct.do");
+	
+		
+		return modelAndView;
 	}
 }
