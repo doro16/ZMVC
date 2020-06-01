@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model2.mvc.common.Page;
@@ -23,6 +24,7 @@ import com.model2.mvc.service.user.UserService;
 
 
 @Controller
+@RequestMapping("/product/*")
 public class ProductController {
 	
 	///Field
@@ -46,25 +48,25 @@ public class ProductController {
 	int pageSize;
 	
 	
-	@RequestMapping("/addProductView.do")
-	public String addProductView() throws Exception {
+	@RequestMapping(value="addProduct", method=RequestMethod.GET)
+	public String addProduct() throws Exception {
 
-		System.out.println("/addProductView.do");
+		System.out.println("/product/addProduct : GET");
 		
 		return "redirect:/product/addProductView.jsp";
 	}
 	
-	@RequestMapping("/addProduct.do")
+	@RequestMapping(value="addProduct", method=RequestMethod.POST)
 	public String addProduct( @ModelAttribute("product") Product product, Model model) throws Exception {
 
-		System.out.println("/addProduct.do");
-		//Business Logic
+		System.out.println("/product/addProduct : POST");
+		
 		product.setManuDate(product.getManuDate().replace("-", ""));
 		productService.addProduct(product);
 
 		model.addAttribute("product", product);
 		
-		return "forward:/product/addProduct.jsp";
+		return "redirect:/product/addProduct.jsp";
 	}
 	
 	@RequestMapping("/getProduct.do") // jsp에서 받아온다고 

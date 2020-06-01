@@ -27,6 +27,7 @@ import com.model2.mvc.service.user.UserService;
 
 
 @Controller
+@RequestMapping("/purchase/*")
 public class PurchaseController {
 	
 	///Field
@@ -185,35 +186,19 @@ public class PurchaseController {
 		return modelAndView;
 	}
 	//listPurchase.jsp에서 
-	//<a href="/updateTranCode.do?tranNo=<%=purchaseVO.getTranNo()%>
+	//<a href="//updateTranCodeByTran.do?tranNo=<%=purchaseVO.getTranNo()%>
 	//								 &tranCode=3
 	//								 &buyerId=<%=user.getUserId()%>">물건도착</a>
 
 	@RequestMapping("/updateTranCodeByTran.do")
-	public ModelAndView updateTranCodeByTran( 	@ModelAttribute("search") Search search ,
-												@ModelAttribute("user") User user,
-												//@RequestParam("buyerId") String buyerId,
-												@ModelAttribute("purchase") Purchase purchase
+	public ModelAndView updateTranCodeByTran( @ModelAttribute("purchase") Purchase purchase
 												) throws Exception{
-		System.out.println("//updateTranCodeByTran.do");
+		System.out.println("/updateTranCodeByTran.do");
 		
-		if(search.getCurrentPage() ==0 ){
-			search.setCurrentPage(1);
-		}
-		search.setPageSize(pageSize);
 		ModelAndView modelAndView = new ModelAndView();
-		// Business logic 수행		
-		purchase.setBuyer(user);
 		purchaseService.updateTranCodeByTran(purchase);
-		Map<String, Object> map = purchaseService.getPurchaseList(search, purchase.getBuyer().getUserId());
-		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
-		System.out.println(resultPage);
 		
-		// Model 과 View 연결
-		modelAndView.addObject("list", map.get("list"));
-		modelAndView.addObject("resultPage", resultPage);
-		modelAndView.addObject("search",search);
-		modelAndView.setViewName("/purchase/listPurchase.do?buyerId="+purchase.getBuyer().getUserId());
+		modelAndView.setViewName("redirect:/listPurchase.do");
 	
 		
 		return modelAndView;
@@ -239,8 +224,8 @@ public class PurchaseController {
 		Purchase purchase = new Purchase();
 		
 		purchase.setPurchaseProd(product);
-		System.out.println("//////////"+product.getProTranCode());
-		System.out.println("//////////////////////"+purchase.getPurchaseProd().getProTranCode());
+		//System.out.println("//////////"+product.getProTranCode());
+		//System.out.println("//////////////////////"+purchase.getPurchaseProd().getProTranCode());
 		purchaseService.updateTranCodeByProd(purchase);
 		
 		
@@ -252,7 +237,7 @@ public class PurchaseController {
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search",search);
-		modelAndView.setViewName("/product/listProduct.do");
+		modelAndView.setViewName("redirect:/listProduct.do?menu=manage");
 	
 		
 		return modelAndView;

@@ -96,7 +96,7 @@
 			<td align="left">
 				
 				<c:if test="${ fn:contains(purchase.tranCode, '2') }">
-				<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">물건도착</a>
+				<a href="/updateTranCodeByTran.do?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">물건도착</a>
 				</c:if>
 		</td>
 		</tr>

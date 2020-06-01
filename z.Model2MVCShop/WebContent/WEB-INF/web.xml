@@ -6,10 +6,7 @@
 					 version="3.0"
 					 metadata-complete="true">
 	
-	<!--	:: ContextLoaderListener 을 이용한 Business logic  Meta-Data 등록  
-			ㅇ 빈설정(Meta-Data) 파일은 DispatcherServlet 의 init-param 의 
-				 contextConfigLocation 으로 등록하는 방법과...
-			ㅇ ContextLoaderListener	 로 등록하는 방법이 있다.	  -->		
+	<!--	:: ContextLoaderListener 을 이용한 Business logic  Meta-Data 등록   -->		
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener	</listener-class>
 	</listener>		
@@ -23,20 +20,7 @@
 			classpath:config/context-transaction.xml
 		</param-value>
 	</context-param>
-
-	<!-- Spring 에서 관리 :  common.properties -->
-	<!-- 게시판 Page 하단 Page 번호 개수 예)  이전 1 2 3 4 5  이후
-	<context-param>
-		<param-name>pageUnit</param-name>
-		<param-value>5</param-value>
-	</context-param> -->
-	
-	<!--  게시판 Page 에 보여주는 게시물 수 
-	<context-param>
-		<param-name>pageSize</param-name>
-		<param-value>3</param-value>
-	</context-param>-->
-	
+		
 	<!-- :: Spring API 에 제공하는 CharacterEncodingFilter 로 한글 인코딩처리 -->	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -66,16 +50,28 @@
 		    <load-on-startup>1</load-on-startup>
   </servlet>
   
-    <!-- 확장자가 ~.do 경우 Servlet Mapping ::  -->
+    <!-- //////////////////////////////////////////////////////////////////////////// 
 	  <servlet-mapping>
 	    <servlet-name>action</servlet-name>
 	    <url-pattern>*.do</url-pattern>
-	  </servlet-mapping>
-	
+	  </servlet-mapping>  
+	  ////////////////////////////////////////////////////////////////////////////-->
+	  
+	<!-- 	URI : / 형식  Servlet Mapping 
+			:: 이 형식은  dynamic contents 와 static contents  모든 요청을 처리할
+			:: 책임이 있다는 의미를 갖는다. 
+			
+			:: static contents 요청처리에 대한 설정 필요
+			   common-servlet.xml 참조 -->
+	<servlet-mapping>
+	  <servlet-name>action</servlet-name>
+	  <url-pattern>/</url-pattern>
+	</servlet-mapping>
+	  
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file> 
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
     </welcome-file-list>
-	
+    	
 </web-app>
