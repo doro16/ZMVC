@@ -22,7 +22,7 @@ function fncGetUserList(currentPage) {
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${param.menu}" method="post">
+<form name="detailForm" action="/product/listProduct?menu=${param.menu}" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -110,13 +110,13 @@ function fncGetUserList(currentPage) {
 			<td></td>
 			<td align="left">
 				<c:if test="${param.menu=='manage'}"> <%-- 관리로 들어오면  이름에 전부 링크걸어 수정하기--%>
-				<a href="/updateProductView.do?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
+				<a href="/product/updateProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
 				</c:if>
 				<c:if test="${param.menu=='search' && !empty product.proTranCode }"> <%-- 구매하기 & 판매중아니면 링크x--%>
 							${product.prodName}
 				</c:if>
 				<c:if test="${param.menu=='search' && empty product.proTranCode }"><%-- 구매하기 & 판매중에만 링크걸기 --%>
-				<a href="/getProduct.do?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
+				<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
 				</c:if>
 			</td>	
 			<td></td>
@@ -132,7 +132,7 @@ function fncGetUserList(currentPage) {
 			
 			<c:when test="${param.menu=='manage'}">
 				<c:if test="${ fn:contains(product.proTranCode, '1') }">
-					구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+					구매완료 <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
 				</c:if>
 				<c:if test="${ fn:contains(product.proTranCode, '2') }"> 배송중 </c:if>
 				<c:if test="${ fn:contains(product.proTranCode, '3') }"> 배송완료 </c:if>		

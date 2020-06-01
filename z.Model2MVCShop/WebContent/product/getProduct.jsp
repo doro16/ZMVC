@@ -122,7 +122,7 @@
 				
 		<c:if test = "${param.menu == 'manage' }" >		
 				
-					<a href="/listProduct.do?menu=manage">확인</a> <!-- 수정 다음페이지 -->
+					<a href="/product/listProduct?menu=manage">확인</a> <!-- 수정 다음페이지 -->
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -131,7 +131,7 @@
 		</c:if>		
 				
 		<c:if test = "${param.menu == 'search' }" >		
-					<a href="/addPurchaseView.do?prodNo=${product.prodNo}">구매</a>
+					<a href="/purchase/addPurchase?prodNo=${product.prodNo}">구매</a>
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23">

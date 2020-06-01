@@ -37,7 +37,7 @@ function fncAddProduct(){
 		return;
 	}
 	//updateProductAction.java¼öÇà
-	document.detailForm.action='/updateProduct.do';
+	document.detailForm.action='/product/updateProduct';
 	
 	document.detailForm.submit();
 }
