@@ -57,17 +57,17 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	//모델 없애면 왜 안떠
-	public String addProduct(@ModelAttribute("product") Product product, Model model) throws Exception {
+	// redirect로 가는 법은?
+	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
 
 		System.out.println("/product/addProduct : POST");
 		
 		product.setManuDate(product.getManuDate().replace("-", ""));
 		productService.addProduct(product);
-		model.addAttribute("product", product);
+		
 
 		
-		return "redirect:/product/addProduct.jsp";
+		return "forward:/product/addProduct.jsp";
 	}
 					
 	@RequestMapping(value="getProduct", method=RequestMethod.GET)  

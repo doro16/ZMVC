@@ -70,10 +70,10 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 
-		<c:if test = "${purchase.paymentOption.trim()=='1' }">
+		<c:if test="${purchase.paymentOption.trim()=='1' }">
 		현금구매
 		</c:if>
-		<c:if test = "${purchase.paymentOption.trim()=='2' }">
+		<c:if test="${purchase.paymentOption.trim()=='2' }">
 		신용구매
 		</c:if>
 		
@@ -147,7 +147,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="/updatePurchaseView.do?tranNo=${purchase.tranNo}">수정</a>
+						<a href="/purchase/updatePurchase?tranNo=${purchase.tranNo}">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

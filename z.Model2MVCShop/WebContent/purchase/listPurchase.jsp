@@ -34,7 +34,7 @@
 
 <div style="width: 98%; margin-left: 10px;"><!-- ${purchase.buyer} -->
 												
-<form name="detailForm" action="/listPurchase.do?buyerId=${param.buyerId}" method="post">
+<form name="detailForm" action="/purchase/listPurchase?buyerId=${param.buyerId}" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -78,10 +78,10 @@
 		<c:set var="i" value="${ i+1 }" />
 		<tr class="ct_list_pop">
 			<td align="center">		
-			<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${ i }</a></td>
+			<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${ i }</a></td>
 			<td></td>
 			<td align="left">
-			<a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a></td>
+			<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a></td>
 			<td></td>
 			<td align="left">${purchase.receiverName}</td>
 			<td></td>
@@ -96,7 +96,7 @@
 			<td align="left">
 				
 				<c:if test="${ fn:contains(purchase.tranCode, '2') }">
-				<a href="/updateTranCodeByTran.do?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">¹°°ÇµµÂø</a>
+				<a href="/purchase/updateTranCodeByTran?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">¹°°ÇµµÂø</a>
 				</c:if>
 		</td>
 		</tr>
