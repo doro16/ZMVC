@@ -87,9 +87,9 @@ public class UserController {
 		
 		return "forward:/user/updateUser.jsp";
 	}
-
+	// 모델 없어도 되네 Model model
 	@RequestMapping( value="updateUser", method=RequestMethod.POST )
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
+	public String updateUser( @ModelAttribute("user") User user , HttpSession session) throws Exception{
 
 		System.out.println("/user/updateUser : POST");
 		//Business Logic

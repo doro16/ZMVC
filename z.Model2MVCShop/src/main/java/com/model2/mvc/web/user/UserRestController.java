@@ -38,6 +38,12 @@ public class UserRestController {
 		System.out.println(this.getClass());
 	}
 	
+	@Value("#{commonProperties['pageUnit']}")
+	int pageUnit;
+	@Value("#{commonProperties['pageSize']}")
+	int pageSize;
+	
+	
 	@RequestMapping( value="json/getUser/{userId}", method=RequestMethod.GET )
 	public User getUser( @PathVariable String userId ) throws Exception{
 		
@@ -47,6 +53,7 @@ public class UserRestController {
 		return userService.getUser(userId);
 	}
 
+	
 	@RequestMapping( value="json/login", method=RequestMethod.POST )
 	public User login(	@RequestBody User user,
 									HttpSession session ) throws Exception{
@@ -62,4 +69,63 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	
+	@RequestMapping( value="json/logout", method=RequestMethod.GET)
+	public String logout(HttpSession session) throws Exception{
+		System.out.println("/user/json/logout : GET");
+		session.invalidate();
+		
+		return "로그아웃";
+	}
+	
+	@RequestMapping( value="json/addUser", method=RequestMethod.POST)
+	public User addUser( @RequestBody User user ) throws Exception{
+		System.out.println("/user/json/addUser : POST");
+		userService.addUser(user);
+		User user1 = userService.getUser(user.getUserId());
+		
+		return user1;
+		
+	} 
+	
+	@RequestMapping( value="json/updateUser", method=RequestMethod.POST)
+	public User updateUser( @RequestBody User user, HttpSession session) throws Exception{
+		System.out.println( "/user/json/updateUser : POST");
+		userService.updateUser(user);
+		// 세션 없어서 가져올때마다 새로만듬. 비교해줄게 없지
+		/*String sessionId=((User)session.getAttribute("user")).getUserId();
+		if(sessionId.equals(user.getUserId())){
+			session.setAttribute("user", user);
+		}
+		*/
+		User user1 = userService.getUser(user.getUserId());
+		
+		return user1;
+	}
+	
+	@RequestMapping( value="json/listUser", method=RequestMethod.GET)
+	public Map listUser( ) throws Exception{
+		System.out.println( "/user/json/listUser: GET");
+		// 처음에 안받으니까 여기에서 만들어줘
+		Search search = new Search();
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		map.put("list", map.get("list"));
+		map.put("resultPage", resultPage);
+		map.put("search", search);
+		return map;
+		
+	}
+	
+
+	
+	
 }

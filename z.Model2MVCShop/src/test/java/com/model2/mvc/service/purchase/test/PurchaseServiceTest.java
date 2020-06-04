@@ -81,7 +81,7 @@ public class PurchaseServiceTest {
 		Assert.assertNotNull(purchaseService.getPurchase(purchase.getTranNo()));
 		//Assert.assertNotNull(purchaseService.getPurchase(10002));
 	}
-	
+	/*
 	//@Test
 	 public void testUpdatePurchase() throws Exception{
 		 
@@ -206,6 +206,6 @@ public class PurchaseServiceTest {
 	 	totalCount = (Integer)map.get("totalCount");
 	 	System.out.println(totalCount);
 	 }
-	 
+	 */
 
 }
