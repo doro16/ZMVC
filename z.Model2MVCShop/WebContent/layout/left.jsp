@@ -48,15 +48,15 @@
 			}); 
 			
 		 
-	 		$( ".Depth03:contains('판매상품관리" ).on("click" , function() {
+	 		$( ".Depth03:contains('판매상품관리')" ).on("click" , function() {
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=manage");
 			}); 
 			
-	 		$( ".Depth03:contains('상 품 검 색" ).on("click" , function() {
+	 		$( ".Depth03:contains('상 품 검 색')" ).on("click" , function() {
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=search");
 			});
 			
-			$( ".Depth03:contains('구매이력조회" ).on("click" , function() {
+			$( ".Depth03:contains('구매이력조회')" ).on("click" , function() {
 		 		$(window.parent.frames["rightFrame"].document.location).attr("href","/purchase/listPurchase");
 			});
 		});	
@@ -134,8 +134,7 @@
 			
 			<c:if test="${ !empty user && user.role == 'user'}">
 			<tr>
-				<td class="Depth03">구매이력조회
-				</td>
+				<td class="Depth03">구매이력조회</td>
 			</tr>
 			</c:if>
 			

@@ -12,7 +12,7 @@
 		<result property="paymentOption" column="payment_option" jdbcType="CHAR"/>
 		<result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
 		<result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
-		<result property="dlvyAddr" column="dlvy_addr" jdbcType="VARCHAR"/>
+		<result property="divyAddr" column="DEMAILADDR" jdbcType="VARCHAR"/>
 		<result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
 		<result property="tranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR"/>
 		<result property="orderDate" column="ORDER_DATA" jdbcType="DATE"/>
@@ -44,7 +44,7 @@
   	
 	<select id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
   		SELECT 
-		t.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone, t.demailaddr, t.dlvy_request, t.dlvy_date, t.ORDER_DATA,                  t.tran_status_code, t.tran_no
+		t.prod_no, t.buyer_id, t.payment_option, t.receiver_name, t.receiver_phone, t.DEMAILADDR, t.dlvy_request, t.dlvy_date, t.ORDER_DATA,                  t.tran_status_code, t.tran_no
 		from TRANSACTION t, PRODUCT p, USERS u
 		where t.prod_no = p.prod_no AND t.buyer_id = u.user_id
 		AND tran_no = #{tranNo}

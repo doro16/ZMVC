@@ -1,9 +1,7 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,13 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.user.UserService;
 
 
 @Controller
@@ -57,15 +56,29 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	// redirect로 가는 법은?
-	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
+	//https://otamot.com/110 봐라
+	public String addProduct(@ModelAttribute("product") Product product, 
+							 MultipartHttpServletRequest request) throws Exception {
 
 		System.out.println("/product/addProduct : POST");
 		
+		
+		Map<String, MultipartFile> files = request.getFileMap();
+
+	    CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("file");
+
+	    String path ="C:/Users/User/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
+
+	    File f = new File(path);
+	    cmf.transferTo(f);
+	    System.out.println("//////////"+ cmf.getOriginalFilename());
+	    
+	    product.setFileName(cmf.getOriginalFilename());
+	   
 		product.setManuDate(product.getManuDate().replace("-", ""));
+		
 		productService.addProduct(product);
 		
-
 		
 		return "forward:/product/addProduct.jsp";
 	}
@@ -79,11 +92,13 @@ public class ProductController {
 		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
 		model.addAttribute("product", product);
-		
+
 		if(menu =="manage") {
-			return "forward:/product/updateProductView.jsp";
+			return "/product/updateProductView.jsp";
 		} else {
-			return "forward:/product/getProduct.jsp";
+			//System.out.println("파람 넘어가는가"+ menu);
+			return "/product/getProduct.jsp";
+			
 		} 
 		
 	}
@@ -106,8 +121,8 @@ public class ProductController {
 		System.out.println("/product/updateProduct : POST");
 		//Business Logic
 		productService.updateProduct(product);
+		model.addAttribute("menu", "manage");
 		
-		//return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 	}
 	

@@ -21,12 +21,23 @@
 <title>구매 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 	function fncGetUserList(currentPage) {
-		document.getElementById("currentPage").value = currentPage;
-	   	document.detailForm.submit();
+		$("#currentPage").val(currentPage);
+		$("form").attr("method", "POST").attr("action", "/purchase/listPurchase?buyerId=${param.buyerId}").submit();
+
 	}
+	
+	$(function() {
+		 	
+		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
+		$("h7").css("color" , "red");
+		
+			
+		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+
+	});
 </script>
 </head>
 
@@ -34,7 +45,7 @@
 
 <div style="width: 98%; margin-left: 10px;"><!-- ${purchase.buyer} -->
 												
-<form name="detailForm" action="/purchase/listPurchase?buyerId=${param.buyerId}" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -100,6 +111,7 @@
 				</c:if>
 		</td>
 		</tr>
+		
 		<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 		</tr>

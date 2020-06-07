@@ -11,21 +11,31 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
+	
 	function fncGetUserList(currentPage) {
-		$("#currentPage").val(currentPage)
+		$("#currentPage").val(currentPage);
 		$("form").attr("method", "POST").attr("action", "/product/listProduct?menu=${param.menu}").submit();	
 	}
-
-	$(function() {	 
-		 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
-			fncGetUserList(1);
-	});
-		 
 	
-	 $(function() {	 
-		 $( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+	 $(function() {
+		 
+
+		$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
 			fncGetUserList(1);
-	});
+		});
+		
+		$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
+			fncGetUserList(1);
+		});
+		
+		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
+		$("h7").css("color" , "red");
+		
+			
+		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+
+	});	
+	
 </script>
 </head>
 
@@ -33,6 +43,7 @@
 
 <div style="width:98%; margin-left:10px;">
 
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>

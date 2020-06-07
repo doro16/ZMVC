@@ -159,7 +159,7 @@ public class PurchaseController {
 		//purchase = purchaseService.getPurchase(purchase.getTranNo());
 		purchase = purchaseService.getPurchase(tranNo);
 		modelAndView.addObject("purchase", purchase);
-		modelAndView.setViewName("/purchase/getPurchase.jsp");
+		modelAndView.setViewName("/purchase/getPurchase?menu=manage");
 		
 		return modelAndView;
 	}
@@ -217,7 +217,7 @@ public class PurchaseController {
 												@ModelAttribute("product") Product product,
 												HttpSession httpSession
 												) throws Exception{
-		System.out.println("///////////////////updateTranCodeByProd.do");
+		System.out.println("///////////////////updateTranCodeByProd");
 		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);

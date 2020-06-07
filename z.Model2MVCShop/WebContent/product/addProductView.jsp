@@ -10,14 +10,14 @@
 </script>
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-
+	
+	//Form 유효성 검증
 	function fncAddProduct(){
-		//Form 유효성 검증
-	 	
-	 	var name=$("input[name='prodName']").val();
-	 	var detail=$("input[name='prodDetail']").val();
-	 	var manuDate=$("input[name='manuDate']").val();
-	 	var price=$("input[name='price']").val();
+			 	
+	 	var name = $("input[name='prodName']").val()
+		var detail = $("input[name='prodDetail']").val()
+		var manuDate = $("input[name='manuDate']").val()
+		var price = $("input[name='price']").val()
 	
 	
 		if(name == null || name.length<1){
@@ -37,8 +37,16 @@
 			return;
 		}
 		
-		$("form").attr("method", "POST").attr("action", "/product/addProduct").submit();
+		$("form").attr("method", "POST").attr("action" , "/product/addProduct").attr("enctype","multipart/form-data").submit();
 	}
+	
+	$(function(){
+		$("td.ct_btn01:contains('등록')").on("click", function() {
+			fncAddProduct();
+		});
+		
+		
+	});
 	
 	$(function() {
 		 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
@@ -139,9 +147,9 @@
 	<tr>
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input		type="text" name="fileName" class="ct_input_g" 
-							style="width: 200px; height: 19px" maxLength="13"/>
+		<td class="ct_write01"> <!-- 여기야 여기 fileName하면 왜안되냐 -->
+			<input type="file" name="file" class="ct_input_g" 
+							style="width: 200px; height: 19px" maxLength="13">
 		</td>
 	</tr>
 	<tr>
@@ -159,7 +167,7 @@
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
-					<a href="javascript:fncAddProduct();">등록</a>
+					등록
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
