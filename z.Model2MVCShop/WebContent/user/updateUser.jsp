@@ -16,10 +16,7 @@
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
 		
-		//=====기존Code 주석 처리 후  jQuery 변경 ======//
 		function fncUpdateUser() {
-			// Form 유효성 검증
-			//var name=document.detailForm.userName.value;
 			var name=$("input[name='userName']").val();
 			
 			if(name == null || name.length <1){
@@ -27,12 +24,6 @@
 				return;
 			}
 				
-			//if(document.detailForm.phone2.value != "" && document.detailForm.phone2.value != "") {
-			//	document.detailForm.phone.value = document.detailForm.phone1.value + "-" + document.detailForm.phone2.value + "-" + document.detailForm.phone3.value;
-			//} else {
-			//	document.detailForm.phone.value = "";
-			//}
-			
 			var value = "";	
 			if( $("input[name='phone2']").val() != ""  &&  $("input[name='phone3']").val() != "") {
 				var value = $("option:selected").val() + "-" 
@@ -44,11 +35,10 @@
 			//alert("phone : "+value);
 			$("input:hidden[name='phone']").val( value );
 				
-			//	document.detailForm.action='/user/updateUser';
-			//document.detailForm.submit();
 			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
-		}//===========================================//
-		//==> 추가된부분 : "수정"  Event 연결
+		}
+		
+		//==>"수정"  Event 연결
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
@@ -60,16 +50,7 @@
 		});	
 		
 	
-		 /*============= jQuery 변경 주석처리 =============
-		function check_email(frm) {
-				var email=document.detailForm.email.value;
-			    if(email != "" && (email.indexOf('@') < 1 || email.indexOf('.') == -1)){
-			    	alert("이메일 형식이 아닙니다.");
-					return false;
-			    }
-			    return true;
-		}========================================	*/
-		//==> 추가된부분 : "이메일" 유효성Check  Event 처리 및 연결
+		//==>"이메일" 유효성Check  Event 처리 및 연결
 		 $(function() {
 			 
 			 $("input[name='email']").on("change" , function() {
@@ -84,11 +65,7 @@
 		});	
 		
 		
-	 	/*============= jQuery 변경 주석처리 =============
-		function resetData() {
-			document.detailForm.reset();
-		}========================================	*/
-		//==> 추가된부분 : "취소"  Event 연결 및 처리
+		//==>"취소"  Event 연결 및 처리
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
@@ -105,9 +82,6 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
-<form name="detailForm"  method="post" >
-////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <form name="detailForm" >
 
 <input type="hidden" name="userId" value="${user.userId }">
@@ -207,10 +181,6 @@
 		<td width="104" class="ct_write">이메일 </td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
-			<input 	type="text" name="email" value="${user.email}" class="ct_input_g" 
-							style="width:100px; height:19px" onChange="check_email(this.form);">
-			 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 			<input 	type="text" name="email" value="${user.email}" class="ct_input_g" 
 							style="width:100px; height:19px">
 		</td>
@@ -231,9 +201,6 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23" />
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
-						<a href="javascript:fncUpdateUser();">수정</a>
-						 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 						 수정
 					</td>
 					<td width="14" height="23">
@@ -244,9 +211,6 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23" />
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
-						<a href="javascript:resetData();">취소</a>
-						 ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 						 취소
 					</td>
 					<td width="14" height="23">

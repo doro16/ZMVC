@@ -24,9 +24,37 @@
 			fncGetUserList(1);
 		});
 		
-		$( "td.ct_btn01:contains('검색')" ).on("click" , function() {
-			fncGetUserList(1);
+		
+		$( ".ct_list_pop td:nth-child(3)" ).on("click" , function() {
+			var array = $(this).text().split(",");
+			prodName = array[0].trim();
+			prodNo = array[1].trim();
+			console.log("야야" +  array[0] + "야야" + array[1]);
+			$.ajax(
+				{
+					url : "/product/json/getProduct/"+prodNo,
+					method : "GET",
+					dataType : "json",
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json",
+					},
+					success : function(JSONData, status) {
+						
+						var displayValue = "<h3>" 
+								+ "상품명 : " +JSONData.prodName+ "<br/>"
+								+ "상품상세정보 : " + JSONData.prodDetail+ "<br/>"
+								+ "제조일자 : " +JSONData.manuDate+ "<br/>"
+								+ "가격 : " + JSONData.price+ "<br/>"
+								+"</h3>";
+						$("h3").remove();
+						$("#"+prodName+"").html(displayValue);
+					}
+				});
+			
 		});
+		
+		
 		
 		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 		$("h7").css("color" , "red");
@@ -130,15 +158,8 @@
 			<td align="center">${ i }</td>
 			<td></td>
 			<td align="left">
-				<c:if test="${param.menu=='manage'}"> <%-- 관리로 들어오면  이름에 전부 링크걸어 수정하기--%>
-				<a href="/product/updateProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
-				</c:if>
-				<c:if test="${param.menu=='search' && !empty product.proTranCode }"> <%-- 구매하기 & 판매중아니면 링크x--%>
-							${product.prodName}
-				</c:if>
-				<c:if test="${param.menu=='search' && empty product.proTranCode }"><%-- 구매하기 & 판매중에만 링크걸기 --%>
-				<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
-				</c:if>
+				${product.prodName}
+				<div style= "dispaly: none;">,${product.prodNo}</div>
 			</td>	
 			<td></td>
 			<td align="left">${product.price}</td>
@@ -172,9 +193,19 @@
 	
 			</td>	
 		</tr>
-		<tr>
-			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-		</tr>			
+		<tr><!-- 여기야 -->
+			<td id="${product.prodName}" colspan="11" bgcolor="D6D7D6" height="1"></td>
+			<!-- 
+			<c:if test="${param.menu=='manage'}"> <%-- 관리로 들어오면  이름에 전부 링크걸어 수정하기--%>
+			<a href="/product/updateProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
+			</c:if>
+			<c:if test="${param.menu=='search' && !empty product.proTranCode }"> <%-- 구매하기 & 판매중아니면 링크x--%>
+						${product.prodName}
+			</c:if>
+			<c:if test="${param.menu=='search' && empty product.proTranCode }"><%-- 구매하기 & 판매중에만 링크걸기 --%>
+			<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
+			</c:if>  -->
+	</tr>			
 	</c:forEach>
 </table>
 
@@ -182,7 +213,7 @@
 	<tr>
 		<td align="center">
 		<input type="hidden" id="currentPage" name="currentPage" value=""/>
-
+		
 			<jsp:include page="../common/pageNavigator.jsp"/>	
 			
     	</td>

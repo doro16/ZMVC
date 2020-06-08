@@ -102,12 +102,33 @@ public class UserRestController {
 		
 		return user1;
 	}
-	
+	//left
 	@RequestMapping( value="json/listUser", method=RequestMethod.GET)
 	public Map listUser( ) throws Exception{
 		System.out.println( "/user/json/listUser: GET");
 		// 처음에 안받으니까 여기에서 만들어줘
 		Search search = new Search();
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		Map<String, Object> map = userService.getUserList(search);
+		
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		map.put("list", map.get("list"));
+		map.put("resultPage", resultPage);
+		map.put("search", search);
+		return map;
+		
+	}
+	//Search로 
+	@RequestMapping( value="json/listUser", method=RequestMethod.POST)
+	public Map listUser(@RequestBody Search search ) throws Exception{
+		System.out.println( "/user/json/listUser: POST");
+		
 		if(search.getCurrentPage() ==0 ){
 			search.setCurrentPage(1);
 		}
