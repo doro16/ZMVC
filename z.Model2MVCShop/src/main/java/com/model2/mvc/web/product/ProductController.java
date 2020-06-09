@@ -66,9 +66,9 @@ public class ProductController {
 		Map<String, MultipartFile> files = request.getFileMap();
 
 	    CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("file");
-
-	    String path ="C:/Users/User/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
-
+	    
+	  //String path ="C:/Users/User/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
+	    String path ="C:/Users/LG/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
 	    File f = new File(path);
 	    cmf.transferTo(f);
 	    System.out.println("//////////"+ cmf.getOriginalFilename());
@@ -120,7 +120,10 @@ public class ProductController {
 
 		System.out.println("/product/updateProduct : POST");
 		//Business Logic
+		product.setManuDate(product.getManuDate().replace("-", ""));
+		
 		productService.updateProduct(product);
+		
 		model.addAttribute("menu", "manage");
 		
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo();

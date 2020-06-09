@@ -29,7 +29,10 @@
 			var array = $(this).text().split(",");
 			prodName = array[0].trim();
 			prodNo = array[1].trim();
-			console.log("야야" +  array[0] + "야야" + array[1]);
+			proTranCode = array[2].trim();
+			console.log("야야" +  array[0].trim() + "야야" + array[1].trim() + "야야" +array[2].trim() + "학"+ proTranCode );
+			var menu = "${param.menu}";
+			//console.log("야호" + menu );
 			$.ajax(
 				{
 					url : "/product/json/getProduct/"+prodNo,
@@ -47,9 +50,23 @@
 								+ "제조일자 : " +JSONData.manuDate+ "<br/>"
 								+ "가격 : " + JSONData.price+ "<br/>"
 								+"</h3>";
+								
+							
+						if(menu == "manage"){				
+							displayValue += "<h3>" + '<a href="/product/updateProduct?prodNo=' + JSONData.prodNo + '&menu='+menu+'">'
+							+ "수정하기</a>" + "</h3>";
+						} else if (menu == "search" && proTranCode == ''){ 
+							displayValue += "<h3>" + '<a href="/product/getProduct?prodNo=' + JSONData.prodNo + '&menu='+menu+'">'
+							+ "구매링크</a>" +"</h3>";
+						} else if (menu == "search" && proTranCode != null){ 
+							displayValue += "<h3>판매불가</h3>"; 
+						} 
+						
+						
 						$("h3").remove();
 						$("#"+prodName+"").html(displayValue);
 					}
+					
 				});
 			
 		});
@@ -159,15 +176,15 @@
 			<td></td>
 			<td align="left">
 				${product.prodName}
-				<div style= "dispaly: none;">,${product.prodNo}</div>
+				<div style= "display: none;">,${product.prodNo}</div>
+				<div style= "display: none;">,${product.proTranCode}</div>
 			</td>	
 			<td></td>
 			<td align="left">${product.price}</td>
 			<td></td>
 			<td align="left">${product.regDate}</td>
 			<td></td>
-			<td align="left">
-		
+			<td align="left" id = "proTran">
 		<c:choose>
 			<%-- null 이면 --%>
 			<c:when test="${ empty product.proTranCode }">판매중</c:when>
