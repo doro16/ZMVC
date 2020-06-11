@@ -67,8 +67,8 @@ public class ProductController {
 
 	    CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("file");
 	    
-	  //String path ="C:/Users/User/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
-	    String path ="C:/Users/LG/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
+	    String path ="C:/Users/User/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
+	    //String path ="C:/Users/LG/git/ZMVC/z.Model2MVCShop/WebContent/images/uploadFiles"+cmf.getOriginalFilename();
 	    File f = new File(path);
 	    cmf.transferTo(f);
 	    System.out.println("//////////"+ cmf.getOriginalFilename());

@@ -91,9 +91,9 @@
 		}
 		
 
-		//==>"이메일" 유효성Check  Event 처리 및 연결
+		
 		 $(function() {
-			 
+			//==>"이메일" 유효성Check  Event 처리 및 연결
 			 $("input[name='email']").on("change" , function() {
 				
 				 var email=$("input[name='email']").val();
@@ -102,6 +102,26 @@
 			    	alert("이메일 형식이 아닙니다.");
 			     }
 			});
+			//비번 두개비교 
+			 $("#alert-success").hide(); 
+			 $("#alert-danger").hide(); 
+			 $("input").keyup(function(){ 
+				 var pwd1=$("#pwd1").val(); 
+			 	 var pwd2=$("#pwd2").val(); 
+			 	 if(pwd1 != "" || pwd2 != ""){ 
+			 		 if(pwd1 == pwd2){ $("#alert-success").show(); 
+			 		 $("#alert-danger").hide(); 
+			 		 $("#submit").removeAttr("disabled"); 
+			 	 }else{ 
+			 		 $("#alert-success").hide(); 
+			 		 $("#alert-danger").show(); 
+			 		 $("#submit").attr("disabled", "disabled");
+			 	 } 
+			 } // end of input
+		});
+
+
+			
 			 
 		});	
 		
@@ -186,21 +206,25 @@
 		      <button type="button" class="btn btn-info">중복확인</button>
 		    </div>
 		  </div>
-		  
+		  <!-- https://hongku.tistory.com/249  -->
 		  <div class="form-group">
 		    <label for="password" class="col-sm-offset-1 col-sm-3 control-label">비밀번호</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+		      <input type="password" id="pwd1" class="form-control" id="password" name="password" placeholder="비밀번호">
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
 		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">비밀번호 확인</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="password2" name="password2" placeholder="비밀번호 확인">
+		      <input type="password" id="pwd2"  class="form-control" id="password2" name="password2" placeholder="비밀번호 확인">
 		    </div>
 		  </div>
 		  
+		  <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div> 
+		  <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
+
+
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
 		    <div class="col-sm-4">
