@@ -30,6 +30,8 @@
         	border: 3px solid #D6CDB7;
             margin-top: 80px;
         }
+        
+        
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->

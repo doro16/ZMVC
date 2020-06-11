@@ -5,10 +5,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<!-- ToolBar Start /////////////////////////////////////-->
+
 <div class="navbar  navbar-inverse navbar-fixed-top">
 	
-	<div class="container">
+	<div class="container my-navbar">
 	       
 		<a class="navbar-brand" href="/index.jsp">Model2 MVC Shop</a>
 		
