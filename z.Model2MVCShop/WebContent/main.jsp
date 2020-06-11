@@ -25,7 +25,9 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-	
+   <script type="text/javascript">
+
+	</script>
 	<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 	<style>
         body {
@@ -42,6 +44,7 @@
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
+
    	<!-- ToolBar End /////////////////////////////////////-->
 
 	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
@@ -55,15 +58,42 @@
 
 	<!-- 참조 : http://getbootstrap.com/css/   : container part..... -->
 	<div class="container">
-        <h3>나폴레옹은 이렇게 말했다.</h3>
-        <p>"오늘 나의 불행은 언젠가 내가 잘못 보낸 시간의 보복이다."</p>
-  	 	<h3>"... 장벽은 절실하게 원하지 않는 사람들을 걸러내려고 존재합니다. 장벽은. 당신이 아니라 '다른' 사람들을 멈추게 하려고 거기 있는 것이지요."</h3>
-         <h3>혜광스님</h3>
-         <p>행복한 삶의 비결은.</p>
-         <p>좋아하는 일을 하는 것이 아리라,</p>
-         <p>지금 하는 일을 좋아하는 것입니다.</p>
+        <div class="bs-example" data-example-id="thumbnails-with-custom-content">
+    <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src="/images/holder.jpg" width="240" height="220" alt="Generic placeholder thumbnail">
+          <div class="caption">
+            <h3>Thumbnail label</h3>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+            <p><a href="#" class="btn btn-primary" role="button">상품보기</a> </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src="/images/holder.jpg" width="240" height="220" >
+          <div class="caption">
+            <h3>Thumbnail label</h3>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+            <p><a href="#" class="btn btn-primary" role="button">상품보기</a> </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src="/images/holder.jpg" width="240" height="220" alt="Generic placeholder thumbnail">
+          <div class="caption">
+            <h3>Thumbnail label</h3>
+            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+            <p><a href="#" class="btn btn-primary" role="button">상품보기</a> </p>
+         </div>
+        </div>
+      </div>
+    </div>
+    <jsp:include page="/product/listProduct.jsp"></jsp:include>
   	 </div>
-
+<button type="button" class="btn btn-default">버튼</button>
 </body>
 
 </html>
