@@ -25,6 +25,7 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   <script src="/javascript/raindrops.js"></script>
    <script type="text/javascript">
 
 	</script>
@@ -33,6 +34,10 @@
         body {
             padding-top : 70px;
         }
+        #logo{
+        	 margin-right : 70px;
+        }
+        
    	</style>
    	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -41,7 +46,9 @@
 		 testUserList();
 		 testWeather();
 				
-	 });	
+	 });
+	 
+	
 	 function testWeather(){
 		 
 	        $.ajax({
@@ -64,7 +71,7 @@
 	                var dis = '<img src= "http://openweathermap.org/img/w/' + JSONData.weather[0].icon + '.png" alt="날씨이미지">';
 
 	                var nalssi = JSONData.weather[0].description;
-	                var dis2 =  '<button type="button" class="btn btn-warning">레인코드 받기</button>';
+	                var dis2 =  '<button type="button" class="btn btn-warning">레인코드</button>';
 	                
 	                $("#rain").html(dis);
 	                
@@ -134,8 +141,7 @@
 	
 </head>
 	
-<body>
-
+<body >
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
 
@@ -144,9 +150,19 @@
 	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
    	<div class="container">
       <!-- Main jumbotron for a primary marketing message or call to action -->
-        <span id = "rain"></span>&nbsp;&nbsp;
-    	<span id = "rain2"></span>
+        <span id = "rain"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    	<span id = "rain2"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
     	
+    	<span id = "logo"><img src="/images/uploadFiles/logo.png" alt="배너1"></span>
+<div class="blockDtl active" id="example2">		</div>
     		
     <br><br>	
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -186,7 +202,7 @@
     <div class="row" id="hh">
      
     </div>
-    
+
   	</div>
   	 
 

@@ -221,10 +221,10 @@
 		    </div>
 		  </div>
 		  
-		  <div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div> 
-		  <div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
+		  <div class="alert alert-success" style= "width: 360px; margin:0 auto; " id="alert-success">비밀번호가 일치합니다.</div> 
+		  <div class="alert alert-danger"  style= "width: 360px; margin:0 auto; " id="alert-danger">비밀번호가 일치하지 않습니다.</div>
 
-
+	<br>
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
 		    <div class="col-sm-4">

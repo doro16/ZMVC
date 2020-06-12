@@ -125,13 +125,14 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping(value="updatePurchase", method=RequestMethod.GET)
-	public ModelAndView updatePurchase( @RequestParam("tranNo") int tranNo) throws Exception{
+	public ModelAndView updatePurchase( @RequestParam("tranNo") int tranNo, 
+						@ModelAttribute("purchase") Purchase purchase) throws Exception{
 
 		System.out.println("/purchase/updatePurchase : GET");
 		//Business Logic
 		ModelAndView modelAndView = new ModelAndView();
 		
-		Purchase purchase = purchaseService.getPurchase(tranNo);
+		purchase = purchaseService.getPurchase(tranNo);
 	
 		// Model 과 View 연결
 		modelAndView.addObject("purchase", purchase);
@@ -140,26 +141,18 @@ public class PurchaseController {
 		return modelAndView;
 	}
 	//POST잖아 다시해라 
-	@RequestMapping(value="updatePurchase", method=RequestMethod.POST)
-	public ModelAndView updatePurchase( @ModelAttribute("purchase") Purchase purchase, 
-										@RequestParam("buyerId") String buyerId,
-										@RequestParam("tranNo") int tranNo ) throws Exception{
-
+	@RequestMapping(value="updatePurchase", method = RequestMethod.POST)
+	public ModelAndView updatePurchase(Purchase purchase) throws Exception {
+		
 		System.out.println("/purchase/updatePurchase : POST");
-		//Business Logic
-		ModelAndView modelAndView = new ModelAndView();
-
-		System.out.println(purchase.getTranNo());
-		System.out.println("*******"+purchase.getBuyer());
-		System.out.println("*******"+buyerId);
-		User user = new User();
-		user = userService.getUser(buyerId);
-		purchase.setBuyer(user);
+		
 		purchaseService.updatePurchase(purchase);
-		//purchase = purchaseService.getPurchase(purchase.getTranNo());
-		purchase = purchaseService.getPurchase(tranNo);
-		modelAndView.addObject("purchase", purchase);
-		modelAndView.setViewName("/purchase/getPurchase?menu=manage");
+		//purchase.setPaymentOption(purchase.getPaymentOption().trim());
+		//purchase.setTranCode(purchase.getTranCode().trim());
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/purchase/getPurchase?tranNo="+purchase.getTranNo());
+		modelAndView.addObject("purchase",purchase);
 		
 		return modelAndView;
 	}

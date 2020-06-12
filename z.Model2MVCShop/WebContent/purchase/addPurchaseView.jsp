@@ -30,6 +30,10 @@
  		body {
             padding-top : 50px;
         }
+        .my{
+        	text-align : right;
+        	margin-left: 190px;
+        }
     </style>
      
 	<script type="text/javascript">
@@ -62,114 +66,97 @@
 		<h1 class="bg-primary text-center">상 품 구 매</h1>
 		
 		<!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal" name="detailForm" >
+		<form class="form-horizontal" name="addPurchase" >
+		<input type="hidden" name="prodNo" value="${product.prodNo}"/>
+		<div class="row" >
+	  		<div class="col-xs-4 col-md-2 my"><strong>상품번호</strong></div>
+			<div class="col-xs-8 col-md-4">&nbsp;${product.prodNo}</div>
+		</div>
 		
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품번호</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상 품 명</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">등록일자</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
-		  
-		  <div class="form-group">
-		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">구매자아이디</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodName" name="prodName" placeholder="상품명">
-		    </div>
-		  </div>
+		<hr/>
 		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 my"><strong>상 품 명</strong></div>
+			<div class="col-xs-8 col-md-4">&nbsp;${product.prodName}</div>
+		</div>
+		
+		<hr/>
+		
+
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 my"><strong>가격</strong></div>
+			<div class="col-xs-8 col-md-4">&nbsp;${product.price}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 my"><strong>등록일자</strong></div>
+			<div class="col-xs-8 col-md-4">&nbsp;${product.regDate}</div>
+		</div>
+		
+		<hr/> 
 		  <div class="form-group">
-		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">구매방법</label>
+		    <label for="buyerId" class="col-sm-offset-1 col-sm-3 control-label">구매자 아이디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodDetail" name="prodDetail" placeholder="상세정보">
+		      <input type="hidden" class="form-control" id="buyerId" name="buyerId" value="${user.userId}"/>
+		      ${user.userId}
 		    </div>
 		  </div>
-		  
+		<hr/> 
 		  <div class="form-group">
-		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">구매자이름</label>
+		    <label for="paymentOption" class="col-sm-offset-1 col-sm-3 control-label">구매방법</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodDetail" name="prodDetail" placeholder="상세정보">
+		    <select class="form-control"	name="paymentOption">
+				<option value="1" selected="selected">현금구매</option>
+				<option value="2">신용구매</option>
+			</select>
 		    </div>
 		  </div>
-		  
+		 <hr/>  
 		  <div class="form-group">
-		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">구매자연락처</label>
+		    <label for="receiverName" class="col-sm-offset-1 col-sm-3 control-label">구매자이름</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodDetail" name="prodDetail" placeholder="상세정보">
+		      <input type="text" class="form-control" id="receiverName" name="receiverName" value="${user.userName}" />
 		    </div>
 		  </div>
-		  
+		  <hr/> 
 		  <div class="form-group">
-		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">구매자주소</label>
+		    <label for="receiverPhone" class="col-sm-offset-1 col-sm-3 control-label">구매자연락처</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="prodDetail" name="prodDetail" placeholder="상세정보">
+		      <input type="text" class="form-control" id="receiverPhone" name="receiverPhone" >
 		    </div>
 		  </div>
-		  
+		  <hr/> 
 		  <div class="form-group">
-		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">구매자주소</label>
+		    <label for="divyAddr" class="col-sm-offset-1 col-sm-3 control-label">구매자주소</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" readonly="readonly" id="manuDate" name="manuDate" value="${product.manuDate}">
+		      <input type="text" class="form-control" id="divyAddr" name="divyAddr">
+		    </div>
+		  </div>
+		  <hr/> 
+		  <div class="form-group">
+		    <label for="divyRequest" class="col-sm-offset-1 col-sm-3 control-label">구매요청사항</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="divyRequest" name="divyRequest">
+		    </div>
+		  </div>
+		  <hr/> 
+		  <div class="form-group">
+		    <label for="divyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" readonly="readonly" id="divyDate" name="divyDate">
 		      <img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-					onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
+					onclick="show_calendar('document.addPurchase.divyDate', document.addPurchase.divyDate.value)"/>
 		    </div>
 		  </div>
-		  
-		  <div class="form-group">
-		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="price" name="price"  value="${product.price}">
-		    </div>
-		  </div>
-		  
-		   <div class="form-group">
-		    <label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
-		    <div class="col-sm-4">
-		      <input type="file" class="form-control" name="file" 
-		      style="width: 360px; height: 40px" maxLength="13">
-		      
-		    </div>
-		  </div>
+		  <hr/> 
+		 
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  > 등&nbsp;록</button>
-			  <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary"  > 구매</button>
+			  <a class="btn btn-primary btn" href="#" role="button">취소</a>
 		    </div>
 		  </div>
 		</form>

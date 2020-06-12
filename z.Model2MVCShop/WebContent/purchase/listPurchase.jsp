@@ -1,28 +1,47 @@
 <%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page pageEncoding="EUC-KR"%>
+
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- listPurchase.jsp (회원이 보는 구매목록 조회) --%>
-<%-- 배송현황과   								정보수정이 있음  --%>
-<%-- 배송완료/배송중/구매완료 상태입니다.   			물건도착 ->UpdateTranCodeAction --%>
+<!DOCTYPE html>
 
-<%--
-	List<Purchase> list= (List<Purchase>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	User user=(User)session.getAttribute("user");
+<html lang="ko">
 	
-	Search search = (Search)request.getAttribute("search");
-	//==> null 을 ""(nullString)으로 변경
-	String searchCondition = CommonUtil.null2str(search.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(search.getSearchKeyword());
---%>
-
-<html>
 <head>
-<title>구매 목록조회</title>
-
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script type="text/javascript">
+	<meta charset="EUC-KR">
+	
+	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <!-- jQuery UI toolTip 사용 JS-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+	  body {
+            padding-top : 50px;
+        }
+    </style>
+    
+     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+	<script type="text/javascript">
 	function fncGetUserList(currentPage) {
 		$("#currentPage").val(currentPage);
 		$("form").attr("method", "POST").attr("action", "/purchase/listPurchase?buyerId=${param.buyerId}").submit();
@@ -41,83 +60,71 @@
 </script>
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
-<div style="width: 98%; margin-left: 10px;"><!-- ${purchase.buyer} -->
-												
+<jsp:include page="/layout/toolbar.jsp" />
+										
 <form name="detailForm">
 
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"width="15" height="37"></td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">구매 목록조회</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"	width="12" height="37"></td>
-	</tr>
-</table>
+<div class="container">
+	
+		<div class="page-header text-info">
+	       	 <h3>구매목록조회</h3>
+	    </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-	<tr>
-		<td colspan="11">
-		전체  ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage}  페이지
-		</td>
-	</tr>
-	<tr>
-		<td class="ct_list_b" width="100">No</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원ID</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원명</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">전화번호</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">배송현황</td>
-		<td class="ct_line02"></td>
-		<td class="ct_list_b">정보수정</td>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>
-	
-	<c:set var="i" value="0" />
-	<c:forEach var="purchase" items="${list}">
-		<c:set var="i" value="${ i+1 }" />
-		<tr class="ct_list_pop">
-			<td align="center">		
-			<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${ i }</a></td>
-			<td></td>
-			<td align="left">
-			<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a></td>
-			<td></td>
-			<td align="left">${purchase.receiverName}</td>
-			<td></td>
-			<td align="left">${purchase.receiverPhone}</td>
-			<td></td>
-			<td align="left">
-				<c:if test="${ fn:contains(purchase.tranCode, '1') }"> 현재 구매완료 상태입니다.</c:if>
-				<c:if test="${ fn:contains(purchase.tranCode, '2') }"> 현재 배송중 상태입니다.</c:if>
-				<c:if test="${ fn:contains(purchase.tranCode, '3') }"> 현재 배송완료 상태입니다. </c:if>
-			</td>	
-			<td></td>
-			<td align="left">
-				
-				<c:if test="${ fn:contains(purchase.tranCode, '2') }">
-				<a href="/purchase/updateTranCodeByTran?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">물건도착</a>
-				</c:if>
-		</td>
-		</tr>
+	<div class="row">
+	    
+	    <div class="col-md-6 text-left">
+	    	<p class="text-primary">
+	    		전체  ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage}  페이지
+	    	</p>
+	    </div>
+	</div>	
 		
-		<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-		</tr>
-	</c:forEach>
-</table>		
+	<table class="table table-hover table-striped" >	
+		<thead>
+	          <tr>
+	            <th align="center">No</th>
+	            <th align="left" >회원ID</th>
+	            <th align="left">주문자</th>
+	            <th align="left">전화번호</th>
+	            <th align="left">배송현황</th>
+	            <th align="left">정보수정</th>
+	          </tr>
+	    </thead>
+       
+		<tbody>
+
 	
+		<c:set var="i" value="0" />
+		<c:forEach var="purchase" items="${list}">
+			<c:set var="i" value="${ i+1 }" />
+			<tr class="ct_list_pop">
+				<td align="center">		
+				<a href="/purchase/getPurchase?tranNo=${purchase.tranNo}">${ i }</a></td>
+				<td align="left">
+				<a href="/user/getUser?userId=${purchase.buyer.userId}">${purchase.buyer.userId}</a></td>
+				<td align="left">${purchase.receiverName}</td>
+				<td align="left">${purchase.receiverPhone}</td>
+				<td align="left">
+					<c:if test="${ fn:contains(purchase.tranCode, '1') }"> 현재 구매완료 상태입니다.</c:if>
+					<c:if test="${ fn:contains(purchase.tranCode, '2') }"> 현재 배송중 상태입니다.</c:if>
+					<c:if test="${ fn:contains(purchase.tranCode, '3') }"> 현재 배송완료 상태입니다. </c:if>
+				</td>	
+				<td align="left">
+					
+					<c:if test="${ fn:contains(purchase.tranCode, '2') }">
+					<a href="/purchase/updateTranCodeByTran?tranNo=${purchase.tranNo}&tranCode=3&buyerId=${user.userId}">
+					물건도착</a>
+					</c:if>
+				</td>
+				</tr>
+          </c:forEach>
+        
+       	  </tbody>
+      
+      </table>	
+
 <!-- PageNavigation Start... -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top:10px;">
 	<tr>
